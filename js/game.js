@@ -110,6 +110,7 @@ if (health > maxHealth) {
 }
 refresh()
 
+
 function refresh() {
     levelUp()
     if (levels[level].hpBoost !== null) {

@@ -324,7 +324,7 @@ function equip(item) {
                 damage = baseDamage - item.deboostNum1 + levels[level].dmgBoost
             }
         }
-        else if (item.deboostType1 === null) {
+        else if (item.deboostType1 === null || item.deboostType1 === undefined) {
             maxHealth = baseMaxHealth + levels[level].hpBoost
             damage = baseDamage + levels[level].dmgBoost
         }

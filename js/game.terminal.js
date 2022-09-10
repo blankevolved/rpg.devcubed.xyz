@@ -22,9 +22,9 @@ jQuery(function($) {
             this.clear()
             this.echo(attack())
         },
-        inv: function() {
+        inv: function(page) {
             this.clear();
-            this.echo(invList())
+            this.echo(invList(page))
         },
         equip: function(item) {
             this.clear();
@@ -48,9 +48,6 @@ jQuery(function($) {
             this.clear();
             save();
             this.echo('Saved Game');
-        },
-        title: function(set) { 
-            title(set)
         },
         dev: function(pass) {
             if (pass == decode('cGFzcw==')) {

@@ -93,22 +93,46 @@ var devMode = false
 const baseName = 'RPG'
 var gameName = baseName
 
+function removeFirst(arr, target) {
+    var idx = arr.indexOf(target);
+    if (idx > -1) {
+      arr.splice(idx, 1);
+    }
+    return arr;
+  }
 
-function invList() {
-    return`${white}Inventory:
-    {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
-    {${inv[5]}}    {${inv[6]}}    {${inv[7]}}    {${inv[8]}}    {${inv[9]}}
-    {${inv[10]}}    {${inv[11]}}    {${inv[12]}}    {${inv[13]}}    {${inv[14]}}
-    {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}
-    {${inv[20]}}    {${inv[21]}}    {${inv[22]}}    {${inv[23]}}    {${inv[24]}}
-    {${inv[25]}}    {${inv[26]}}    {${inv[27]}}    {${inv[28]}}    {${inv[29]}}
-    {${inv[30]}}    {${inv[31]}}    {${inv[32]}}    {${inv[33]}}    {${inv[34]}}
-    {${inv[35]}}    {${inv[36]}}    {${inv[37]}}    {${inv[38]}}    {${inv[39]}}
-    {${inv[40]}}    {${inv[41]}}    {${inv[42]}}    {${inv[43]}}    {${inv[44]}}
-    {${inv[45]}}    {${inv[46]}}    {${inv[47]}}    {${inv[48]}}    {${inv[49]}}
-    {${inv[50]}}    {${inv[51]}}    {${inv[52]}}    {${inv[53]}}    {${inv[54]}}
-    {${inv[55]}}    {${inv[56]}}    {${inv[57]}}    {${inv[58]}}    {${inv[59]}}]
-`.replaceAll('{undefined}', '')
+function invList(page) {
+    if (page == 1) {
+        return`${white}Inventory Page 1:
+        {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
+        {${inv[5]}}    {${inv[6]}}    {${inv[7]}}    {${inv[8]}}    {${inv[9]}}
+        {${inv[10]}}    {${inv[11]}}    {${inv[12]}}    {${inv[13]}}    {${inv[14]}}
+        {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}
+        {${inv[20]}}    {${inv[21]}}    {${inv[22]}}    {${inv[23]}}    {${inv[24]}}
+        {${inv[25]}}    {${inv[26]}}    {${inv[27]}}    {${inv[28]}}    {${inv[29]}}
+        {${inv[30]}}    {${inv[31]}}    {${inv[32]}}    {${inv[33]}}    {${inv[34]}}
+        {${inv[35]}}    {${inv[36]}}    {${inv[37]}}    {${inv[38]}}    {${inv[39]}}
+        {${inv[40]}}    {${inv[41]}}    {${inv[42]}}    {${inv[43]}}    {${inv[44]}}
+        {${inv[45]}}    {${inv[46]}}    {${inv[47]}}    {${inv[48]}}    {${inv[49]}}]
+    `.replaceAll('{undefined}', '')
+    }
+    if (page == 2) {
+        return`${white}Inventory Page 2:
+        {${inv[50]}}    {${inv[51]}}    {${inv[52]}}    {${inv[53]}}    {${inv[54]}}
+        {${inv[55]}}    {${inv[56]}}    {${inv[57]}}    {${inv[58]}}    {${inv[59]}}
+        {${inv[60]}}    {${inv[61]}}    {${inv[62]}}    {${inv[63]}}    {${inv[64]}}
+        {${inv[65]}}    {${inv[66]}}    {${inv[67]}}    {${inv[68]}}    {${inv[69]}}
+        {${inv[70]}}    {${inv[71]}}    {${inv[72]}}    {${inv[73]}}    {${inv[74]}}
+        {${inv[75]}}    {${inv[76]}}    {${inv[77]}}    {${inv[78]}}    {${inv[79]}}
+        {${inv[80]}}    {${inv[81]}}    {${inv[82]}}    {${inv[83]}}    {${inv[84]}}
+        {${inv[85]}}    {${inv[86]}}    {${inv[87]}}    {${inv[88]}}    {${inv[89]}}
+        {${inv[90]}}    {${inv[91]}}    {${inv[92]}}    {${inv[93]}}    {${inv[94]}}
+        {${inv[95]}}    {${inv[96]}}    {${inv[97]}}    {${inv[98]}}    {${inv[99]}}]
+    `.replaceAll('{undefined}', '')
+    }
+    else {
+        return `${white}That page dosent exist]`
+    }
 }
 
 const help = `${white}Help:
@@ -123,6 +147,7 @@ const help = `${white}Help:
     run: run away from a fight (one time per fight)
 
     inv: open your inventory
+        page: page number you wanna look at
 
     equip: use/put on a item in your inventory
 
@@ -133,9 +158,6 @@ const help = `${white}Help:
     inspect: inspect any item in the game
     
     save: saves your game
-
-    title: set the title of the web page to something
-        set: reset, coins, health
 `
 const osError = `${pink}{${white}os${pink}}`
 
@@ -164,13 +186,12 @@ function refresh() {
         health = maxHealth
     }
     stats = `${white}Stats: ]
-    ${white}Coins: ]${yellow}{ ${coins} }]
+    ${white}Coins: ]${yellow}{ ${coins.toFixed(2)} }]
     ${white}Level: ]${green}{ ${level} }]
     ${white}XP: ]${darkgreen}{ ${xp}/${xpToNext} }]
-    ${white}Health: ]${red}{ ${health}/${maxHealth} } ( +${levels[level].hpBoost} )]
+    ${white}HP: ]${red}{ ${health}/${maxHealth} } ( +${levels[level].hpBoost} )]
     ${white}Damage: ]${blue}{ ${damage} } ( +${levels[level].dmgBoost} )]
-    ${white}Weapon: ]${purple}{ ${currentWeapon} }]
-`.replaceAll(null, '0')
+    ${white}Weapon: ]${purple}{ ${currentWeapon} }]`.replaceAll(null, '0')
 
     document.getElementById('title').innerHTML = gameName
 
@@ -178,6 +199,7 @@ function refresh() {
 
 function death() {
     health = maxHealth
+    hasRun = false
     currentEnemy.health = currentEnemy.baseHealth
     currentEnemy = null
     currentEnemyName = null
@@ -200,33 +222,61 @@ ${white}${enemyName}:
 
     if (currentEnemy !== null) return enemyStats
 
-    currentEnemy = enemys[id]['lvl' + level.toString()]
-    currentEnemyName = enemys[id].name
+    currentEnemy = enemy
+    currentEnemyName = enemyName
     return enemyStats
 }
 
 function run() {
     if (currentEnemy === null) return `${white}Cant run until you intiate a fight with the ]${blue}fight] ${white}command]`
-    if (hasRun == true) return `${white}You already tried to run]`
-    var ran = Math.floor(Math.random() * 2)
-    console.log(ran)
     var enemy = currentEnemy
     var enemyName = currentEnemyName
+    if (hasRun == true) {
+        health = health - currentEnemy.damage
+        refresh()
+        if (currentEnemy == null) {
+            return `${white}You couldnt run away and died]
+${stats}` 
+        }
+        else {
+        return `${white}You already tried to run]
+${stats}
+    ${red}-${currentEnemy.damage} HP] 
+
+${white}${enemyName}:
+    ${white}Health: ]${red}{ ${enemy.health}/${enemy.maxHealth} }]
+    ${white}Damage: ]${blue}{ ${enemy.damage} }]`
+        }
+    }
+    else {
+        var ran = Math.floor(Math.random() * 2)
+        console.log(ran)
+    }     
     if (ran == 0) {
+        currentEnemy.health = currentEnemy.baseHealth
         currentEnemy = null
         currentEnemyName = null
         hasRun = true
-        return `${white}you ran away]
-    ${stats}`
+        return `${white}You ran away]
+${stats}`
     }
     else if (ran == 1) {
         hasRun = true
-        return `${white}you couldnt run away]
+        health = health - currentEnemy.damage
+        refresh()
+        if (currentEnemy == null) {
+            return `${white}You couldnt run away and died]
+${stats}` 
+        }
+        else {
+        return `${white}You couldnt run away]
 ${stats}
+    ${red}-${currentEnemy.damage} HP] 
+
 ${white}${enemyName}:
     ${white}Health: ]${red}{ ${enemy.health}/${enemy.maxHealth} }]
-    ${white}Damage: ]${blue}{ ${enemy.damage} }]
-`
+    ${white}Damage: ]${blue}{ ${enemy.damage} }]`
+        }
     }
 }
 
@@ -255,26 +305,35 @@ function attack() {
     ${yellow}( + ${addedCoins} ) coins]
     ${green}( + ${addedXP} ) XP]
     ${blue}( + ${addedWeapons} ) to your inventory]
+
+${stats}
     `.replaceAll(null, 'None')
     } 
-    enemy = currentEnemy
-    enemyName = currentEnemyName
+    var enemy = currentEnemy
+    var enemyName = currentEnemyName
     refresh()
 
-    if (currentEnemy === null) return `You've died\n${stats}`; hasRun = false
+    if (currentEnemy === null) return `You've died\n${stats}`
 
     return `${stats}
+    ${red}-${currentEnemy.damage} HP] 
+
 ${white}${enemyName}:
     ${white}Health: ]${red}{ ${enemy.health}/${enemy.maxHealth} }]
     ${white}Damage: ]${blue}{ ${enemy.damage} }]
+    ${red}-${damage} HP]
 `
 }
 
 function sell(item) {
     if (item.sellPrice !== null && inv.includes(item.name)) {
-        inv.pop(item.name)
+        removeFirst(inv, item.name)
         coins = coins + item.sellPrice
         refresh()
+        if (inv.includes(item.name) == false) {
+            equip(weapons.fist)
+            refresh()
+        }
         return stats
     }
     else {
@@ -346,22 +405,6 @@ function listAllItems() {
     ${listItem(weapons.sword)}`
 }
 
-function title(set) {
-    if (set === 'reset') {
-        gameName = `${baseName}`
-    }
-    else if (set === 'health') {
-        gameName = `${baseName} - Health: [${health}/${maxHealth}]`
-    }
-    else if (set === 'coins') {
-        gameName = `${baseName} - Coins: [${coins}]`
-    }
-    else {
-        return `${osError}${red} invalid type]`
-    }
-    refresh()
-}
-
 function save() {
     var gameSave = {
         coins: coins,
@@ -372,7 +415,8 @@ function save() {
         inv: inv,
         gameName: gameName,
         level: level,
-        xp: xp
+        xp: xp,
+        xpToNext: xpToNext
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
 }
@@ -388,6 +432,7 @@ function load() {
     if (typeof savedGame.gameName !== 'undefined') gameName = savedGame.gameName
     if (typeof savedGame.level !== 'undefined') level = savedGame.level
     if (typeof savedGame.xp !== 'undefined') xp = savedGame.xp
+    if (typeof savedGame.xpToNext !== 'undefined') xpToNext = savedGame.xpToNext
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     
     refresh()

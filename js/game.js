@@ -45,19 +45,10 @@ const enemys = {
             'health':8,
             'maxHealth':8,
             'damage':3,
-            'xpDrop':[5, 10, 15],
-            'coinDrop': [13, 14, 15],
-            'itemDrop': ['Sword', 'Sword', 'Sword', 'Sword', 'Sword', null, null, null, null, null],
+            'xpDrop':[2, 5, 8],
+            'coinDrop': [17, 20, 22],
+            'itemDrop': ['Dagger', 'Dagger', 'Dagger', 'Dagger', 'Dagger', 'Sword', 'Sword', null, null, null],
         },
-        'lvl2': {
-            'baseHealth':5,
-            'health':5,
-            'maxHealth':5,
-            'damage':1,
-            'xpDrop':[5, 10, 15],
-            'coinDrop': [13, 14, 15],
-            'itemDrop': ['Sword', 'Sword', 'Sword', 'Sword', 'Sword', null, null, null, null, null],
-        }
     }
 }
 

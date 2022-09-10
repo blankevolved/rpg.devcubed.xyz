@@ -14,6 +14,10 @@ jQuery(function($) {
                 this.echo(fight(0, level));
             }
         },
+        run: function() {
+            this.clear();
+            this.echo(run())
+        },
         attack: function() {
             this.clear()
             this.echo(attack())
@@ -25,6 +29,11 @@ jQuery(function($) {
         equip: function(item) {
             this.clear();
             this.echo(equip(weapons[item]))
+            refresh()
+        },
+        sell: function(item) {
+            this.clear();
+            this.echo(sell(weapons[item]))
             refresh()
         },
         inspect: function(item) {

@@ -1,17 +1,30 @@
 
 var weapons = {
     'fist': {
-        'boostType': null,
-        'boostNum': 0,
-        'name': "Fist",
+        'boostType1': null,
+        'boostNum1': 0,
+        'name': 'Fist',
+        'sellPrice':null,
         'desc':`Your first weapon, nothing!`
     },
+    'dagger': {
+        'boostType1': 'damage',
+        'boostNum1': 2,
+        'name': 'Dagger',
+        'sellPrice':3,
+        'desc': `A basic dagger
+    ${green}+2 damage]`
+    },
     'sword': {
-        'boostType': 'damage',
-        'boostNum': 5,
-        'name': "Sword",
+        'boostType1': 'damage',
+        'boostNum1': 4,
+        'deboostType1': 'health',
+        'deboostNum1': 1,
+        'name': 'Sword',
+        'sellPrice':7,
         'desc': `A basic sword
-    ${green}+5 damage]`
+    ${green}+4 damage]
+    ${red}-1 health]`
     }
 }
 
@@ -19,6 +32,24 @@ const enemys = {
     0: {
         'name': 'Goblin',
         'lvl0': {
+            'baseHealth':5,
+            'health':5,
+            'maxHealth':5,
+            'damage':1,
+            'xpDrop':[1, 3, 5],
+            'coinDrop': [13, 14, 15],
+            'itemDrop': ['Dagger', 'Dagger', 'Dagger', 'Dagger', 'Sword', null, null, null, null, null],
+        },
+        'lvl1': {
+            'baseHealth':8,
+            'health':8,
+            'maxHealth':8,
+            'damage':3,
+            'xpDrop':[5, 10, 15],
+            'coinDrop': [13, 14, 15],
+            'itemDrop': ['Sword', 'Sword', 'Sword', 'Sword', 'Sword', null, null, null, null, null],
+        },
+        'lvl2': {
             'baseHealth':5,
             'health':5,
             'maxHealth':5,
@@ -56,6 +87,7 @@ var xp = 0
 var xpToNext = levels[level].req
 var currentEnemy = null
 var currentEnemyName = null
+var hasRun = false
 
 var baseHealth = 10
 var baseMaxHealth = 10
@@ -76,7 +108,15 @@ function invList() {
     {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
     {${inv[5]}}    {${inv[6]}}    {${inv[7]}}    {${inv[8]}}    {${inv[9]}}
     {${inv[10]}}    {${inv[11]}}    {${inv[12]}}    {${inv[13]}}    {${inv[14]}}
-    {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}]
+    {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}
+    {${inv[20]}}    {${inv[21]}}    {${inv[22]}}    {${inv[23]}}    {${inv[24]}}
+    {${inv[25]}}    {${inv[26]}}    {${inv[27]}}    {${inv[28]}}    {${inv[29]}}
+    {${inv[30]}}    {${inv[31]}}    {${inv[32]}}    {${inv[33]}}    {${inv[34]}}
+    {${inv[35]}}    {${inv[36]}}    {${inv[37]}}    {${inv[38]}}    {${inv[39]}}
+    {${inv[40]}}    {${inv[41]}}    {${inv[42]}}    {${inv[43]}}    {${inv[44]}}
+    {${inv[45]}}    {${inv[46]}}    {${inv[47]}}    {${inv[48]}}    {${inv[49]}}
+    {${inv[50]}}    {${inv[51]}}    {${inv[52]}}    {${inv[53]}}    {${inv[54]}}
+    {${inv[55]}}    {${inv[56]}}    {${inv[57]}}    {${inv[58]}}    {${inv[59]}}]
 `.replaceAll('{undefined}', '')
 }
 
@@ -85,9 +125,17 @@ const help = `${white}Help:
 
     stats: show your stats
 
+    fight: intiate a fight
+
+    attack: attack your enemy
+
+    run: run away from a fight (one time per fight)
+
     inv: open your inventory
 
     equip: use/put on a item in your inventory
+
+    sell: sell any item in your inventory
 
     listItems: list every item in the game
 
@@ -102,12 +150,6 @@ const osError = `${pink}{${white}os${pink}}`
 
 var stats = ''
 
-if (currentWeapon == null) {
-    equip(weapons.fist)
-}
-if (health > maxHealth) {
-    health = maxHealth
-}
 refresh()
 
 
@@ -124,8 +166,14 @@ function refresh() {
     if (health <= 0) {
         death()
     }
+    if (currentWeapon == null) {
+        equip(weapons.fist)
+    }
+    if (health > maxHealth) {
+        health = maxHealth
+    }
     stats = `${white}Stats: ]
-    ${white}Coins: ] ${yellow}{ ${coins} }]
+    ${white}Coins: ]${yellow}{ ${coins} }]
     ${white}Level: ]${green}{ ${level} }]
     ${white}XP: ]${darkgreen}{ ${xp}/${xpToNext} }]
     ${white}Health: ]${red}{ ${health}/${maxHealth} } ( +${levels[level].hpBoost} )]
@@ -149,6 +197,9 @@ function death() {
 function fight(id, level) {
     var enemy = enemys[id]['lvl' + level.toString()]
     var enemyName = enemys[id].name
+    if (enemy === undefined) {
+        enemy = enemys[id]['lvl' + (level - 1).toString()]
+    }
     refresh()
     var enemyStats = `${stats}
 ${white}${enemyName}:
@@ -161,6 +212,31 @@ ${white}${enemyName}:
     currentEnemy = enemys[id]['lvl' + level.toString()]
     currentEnemyName = enemys[id].name
     return enemyStats
+}
+
+function run() {
+    if (currentEnemy === null) return `${white}Cant run until you intiate a fight with the ]${blue}fight] ${white}command]`
+    if (hasRun == true) return `${white}You already tried to run]`
+    var ran = Math.floor(Math.random() * 2)
+    console.log(ran)
+    var enemy = currentEnemy
+    var enemyName = currentEnemyName
+    if (ran == 0) {
+        currentEnemy = null
+        currentEnemyName = null
+        hasRun = true
+        return `${white}you ran away]
+    ${stats}`
+    }
+    else if (ran == 1) {
+        hasRun = true
+        return `${white}you couldnt run away]
+${stats}
+${white}${enemyName}:
+    ${white}Health: ]${red}{ ${enemy.health}/${enemy.maxHealth} }]
+    ${white}Damage: ]${blue}{ ${enemy.damage} }]
+`
+    }
 }
 
 function attack() {
@@ -182,6 +258,7 @@ function attack() {
         refresh()
         currentEnemy = null
         currentEnemyName = null
+        hasRun = false
         refresh()
         return `${white}Drops:
     ${yellow}( + ${addedCoins} ) coins]
@@ -193,13 +270,28 @@ function attack() {
     enemyName = currentEnemyName
     refresh()
 
-    if (currentEnemy === null) return `${stats}\nYou've died`
+    if (currentEnemy === null) return `You've died\n${stats}`; hasRun = false
 
     return `${stats}
 ${white}${enemyName}:
     ${white}Health: ]${red}{ ${enemy.health}/${enemy.maxHealth} }]
     ${white}Damage: ]${blue}{ ${enemy.damage} }]
 `
+}
+
+function sell(item) {
+    if (item.sellPrice !== null && inv.includes(item.name)) {
+        inv.pop(item.name)
+        coins = coins + item.sellPrice
+        refresh()
+        return stats
+    }
+    else {
+        equip(weapons.fist)
+        refresh()
+        return `${white}You dont have that item] 
+${stats}`
+    }
 }
 
 function levelUp() {
@@ -222,16 +314,24 @@ function equip(item) {
         console.log(inv)
         console.log(inv.includes(item.name))
         currentWeapon = item.name
-        console.log(item.boostType)
-        if (item.boostType === 'health') {
-            maxHealth =  baseMaxHealth + item.boostNum + levels[level].hpBoost
+        console.log(item.boostType1)
+        if (item.boostType1 === 'health') {
+            maxHealth =  baseMaxHealth + item.boostNum1 + levels[level].hpBoost
         }
-        else if (item.boostType === 'damage') {
-            damage = baseDamage + item.boostNum + levels[level].dmgBoost
+        else if (item.boostType1 === 'damage') {
+            damage = baseDamage + item.boostNum1 + levels[level].dmgBoost
         }
-        else if (item.boostType === null) {
+        else if (item.boostType1 === null) {
             maxHealth = baseMaxHealth
             damage = baseDamage
+        }
+        if (item.deboostType1 !== undefined) {
+            if (item.deboostType1 === 'health') {
+                maxHealth =  baseMaxHealth - item.deboostNum1 + levels[level].hpBoost
+            }
+            else if (item.boostType1 === 'damage') {
+                damage = baseDamage - item.deboostNum1 + levels[level].dmgBoost
+            }
         }
         return 'equiped'
     }
@@ -313,6 +413,12 @@ window.setInterval(function(){
     }
     refresh()
 }, 15000);  // Change Interval here to test. For eg: 5000 for 5 sec
+
+window.setInterval(function(){
+    // call your function here
+    save()
+    refresh()
+}, 10000);  // Change Interval here to test. For eg: 5000 for 5 sec
 
 function addcoins(num) {
     coins = coins + num

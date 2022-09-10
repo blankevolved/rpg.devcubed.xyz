@@ -60,13 +60,13 @@ const levels = {
     },
     1: {
         'req': 100,
-        'hpBoost':1,
-        'dmgBoost':2
+        'hpBoost':.5,
+        'dmgBoost':1
     },
     2: {
         'req': 150,
-        'hpBoost':2,
-        'dmgBoost':3
+        'hpBoost':1,
+        'dmgBoost':1.5
     }
 }
 var level = 0
@@ -290,6 +290,7 @@ function levelUp() {
         level = level + 1
         if (levels[level] === undefined) {
             level = level - 1
+            xpToNext = levels[level].req
         }
         else {
             xp = xp - xpToNext 
@@ -312,10 +313,6 @@ function equip(item) {
         else if (item.boostType1 === 'damage') {
             damage = baseDamage + item.boostNum1 + levels[level].dmgBoost
         }
-        else if (item.boostType1 === null) {
-            maxHealth = baseMaxHealth + levels[level].hpBoost
-            damage = baseDamage + levels[level].dmgBoost
-        }
         if (item.deboostType1 !== undefined) {
             if (item.deboostType1 === 'health') {
                 maxHealth =  baseMaxHealth - item.deboostNum1 + levels[level].hpBoost
@@ -324,7 +321,7 @@ function equip(item) {
                 damage = baseDamage - item.deboostNum1 + levels[level].dmgBoost
             }
         }
-        else if (item.deboostType1 === null || item.deboostType1 === undefined) {
+        else if (item.deboostType1 === null || item.deboostType1 === undefined && item.boostType1 === null) {
             maxHealth = baseMaxHealth + levels[level].hpBoost
             damage = baseDamage + levels[level].dmgBoost
         }

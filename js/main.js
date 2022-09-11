@@ -31,7 +31,7 @@ const tutorial = `${white}Tutorial:
     ${white}Inventory:
         {Fist}]
     
-    Your equiped weapon is shown in your stats in green
+    Your equiped weapon is shown in your stats in purple
 
     ${white}Weapon: ]${purple}{ Fist }]
 
@@ -40,19 +40,19 @@ const tutorial = `${white}Tutorial:
 
     Weapons will be added as you find/buy them
     Weapons can be dropped from enemys
-    Weapons can add stat boosts such as +5 damage, or +5 health
+    Weapons can add stat boosts such as ${blue}+5 damage], or ${red}+5 health]
 
     You can inspect a certain weapon with the ${blue}inspect] command followed by the weapon name
     You can show all weapons in the game with the ${blue}listItems] command
 
     ${darkgreen}<--Levels/XP-->]
-    Your level and XP are shown in your stats in pink
+    Your level and XP are shown in your stats in green
 
     ${white}Level: ]${green}{ 0 }]
     ${white}XP: ]${darkgreen}{ 0/50 }]
 
     You earn XP as you win battles
-    When your xp amount reaches its max, your level goes up by 1
+    When your XP amount reaches its max, your level goes up by 1
     Everytime you level up you get a small stat boost
 
     Type ${blue}start] to begin your quest

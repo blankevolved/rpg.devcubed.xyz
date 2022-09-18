@@ -363,7 +363,7 @@ function attack() {
         hasRun = false
         refresh()
         return `${white}Drops:
-    ${yellow}( + ${addedCoins} ) coins]
+    ${yellow}( + ${addedCoins} ) Coins]
     ${green}( + ${addedXP} ) XP]
     ${blue}( + ${addedWeapons} ) to your inventory]
 
@@ -395,7 +395,8 @@ function sell(item) {
             equip(items.fist)
             refresh()
         }
-        return showStats()
+        return `${yellow}( + ${item.sellPrice} Coins )]
+${showStats()}`
     }
     else {
         equip(items.fist)

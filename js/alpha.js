@@ -88,7 +88,28 @@ const enemys = {
             'damage':1,
             'xpDrop':[1, 3, 5],
             'coinDrop': [13, 14, 15],
-            'itemDrop': ['Dagger', 'Dagger', 'Dagger', 'Dagger', 'Sword', null, null, null, null, null],
+            'itemDrop': [
+                'Dagger', 
+                'Dagger', 
+                'Dagger', 
+                'Dagger', 
+                'Sword', 
+                'Leather Helmet', 
+                'Leather Chestplate', 
+                'Leather Leggings', 
+                'Leather Boots',
+                null,
+                null,
+                null, 
+                null,
+                null, 
+                null,
+                null, 
+                null, 
+                null, 
+                null, 
+                null
+            ],
         },
         'lvl1': {
             'baseHealth':8,
@@ -97,7 +118,27 @@ const enemys = {
             'damage':3,
             'xpDrop':[2, 5, 8],
             'coinDrop': [17, 20, 22],
-            'itemDrop': ['Dagger', 'Dagger', 'Dagger', 'Dagger', 'Dagger', 'Sword', 'Sword', null, null, null],
+            'itemDrop': ['Dagger',
+                'Dagger', 
+                'Dagger', 
+                'Dagger', 
+                'Dagger', 
+                'Sword', 
+                'Sword', 
+                'Leather Helmet', 
+                'Leather Helmet', 
+                'Leather Helmet', 
+                'Leather Chestplate', 
+                'Leather Leggings', 
+                'Leather Leggings', 
+                'Leather Boots', 
+                'Leather Boots', 
+                'Leather Boots',
+                null, 
+                null, 
+                null, 
+                null
+            ],
         },
     }
 }
@@ -117,11 +158,6 @@ const levels = {
         'req': 150,
         'hpBoost':1,
         'dmgBoost':1.5
-    },
-    3: {
-        'req': 225,
-        'hpBoost':1.25,
-        'dmgBoost':1.75
     }
 }
 var level = 0
@@ -177,8 +213,32 @@ var allBoosts = {
 
 var devMode = false 
 
+const help = `${white}Help:
+    help: get some help
 
-const baseName = 'RPG'
+    stats: show your stats
+
+    fight: intiate a fight (f)
+    
+    attack: attack your enemy (a)
+    
+    run: run away from a fight (one time per fight) (r)
+    
+    inv: open your inventory
+        page: 1, 2
+    
+    equip: use/put on a item in your inventory
+
+    unequip: put away a item in your inventory
+    
+    sell: sell any item in your inventory
+    
+    listItems: list every item in the game
+    
+    inspect: inspect any item in the game
+    
+    save: saves your game
+`
 
 function removeFirst(arr, target) {
     var idx = arr.indexOf(target);

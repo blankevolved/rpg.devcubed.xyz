@@ -24,7 +24,7 @@ jQuery(function($) {
         },
         f: function() {
             this.clear()
-            if (level <= 2) {
+            if (level <= 3) {
                 this.echo(fight(0, level));
             }
         },

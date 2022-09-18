@@ -2,11 +2,11 @@ jQuery(function($) {
     $('body').terminal({
         start: function() {
             this.clear();
-            redirect('game/');
+            redirect('/game')
         },
         alpha: function() {
             this.clear();
-            redirect('alpha/');
+            redirect('/alpha')
         }
     }, {
         greetings: tutorial,

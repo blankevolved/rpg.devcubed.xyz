@@ -6,7 +6,7 @@ jQuery(function($) {
         },
         stats: function() {
             this.clear();
-            this.echo(stats);
+            this.echo(`${showStats()}\n`);
         },
         fight: function() {
             this.clear()
@@ -28,17 +28,17 @@ jQuery(function($) {
         },
         equip: function(item) {
             this.clear();
-            this.echo(equip(weapons[item]))
+            this.echo(equip(items[item]))
             refresh()
         },
         sell: function(item) {
             this.clear();
-            this.echo(sell(weapons[item]))
+            this.echo(sell(items[item]))
             refresh()
         },
         inspect: function(item) {
             this.clear();
-            this.echo(inspect(weapons[item]))
+            this.echo(inspect(items[item]))
         },
         listItems: function() {
             this.clear();
@@ -68,9 +68,12 @@ jQuery(function($) {
                 this.clear();
                 this.echo(stats);
             }
+        },
+        give: function(item) {
+            this.echo(additem(items[item]))
         }
     }, {
-        greetings: stats,
+        greetings: `${showStats()}\n`,
         prompt: `${white}>>> `,
     });
 });

@@ -22,6 +22,20 @@ jQuery(function($) {
             this.clear()
             this.echo(attack())
         },
+        f: function() {
+            this.clear()
+            if (level <= 2) {
+                this.echo(fight(0, level));
+            }
+        },
+        r: function() {
+            this.clear();
+            this.echo(run())
+        },
+        a: function() {
+            this.clear()
+            this.echo(attack())
+        },
         inv: function(page) {
             this.clear();
             this.echo(invList(page))
@@ -70,7 +84,9 @@ jQuery(function($) {
             }
         },
         give: function(item) {
-            this.echo(additem(items[item]))
+            if (devMode == true) {
+                this.echo(additem(items[item]))
+            }
         }
     }, {
         greetings: `${showStats()}\n`,

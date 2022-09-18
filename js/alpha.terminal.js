@@ -45,6 +45,11 @@ jQuery(function($) {
             this.echo(equip(items[item]))
             refresh()
         },
+        unequip: function(item) {
+            this.clear();
+            this.echo(unequip(items[item]))
+            refresh()
+        },
         sell: function(item) {
             this.clear();
             this.echo(sell(items[item]))

@@ -5,7 +5,7 @@ var items = {
         'boostNum1': 0,
         'name': 'Fist',
         'slots': ['mainHand'],
-        'sellPrice': 0,
+        'sellPrice': null,
         'desc': `Your first weapon, nothing!`
     },
     'dagger': {
@@ -117,6 +117,11 @@ const levels = {
         'req': 150,
         'hpBoost':1,
         'dmgBoost':1.5
+    },
+    3: {
+        'req': 225,
+        'hpBoost':1.25,
+        'dmgBoost':1.75
     }
 }
 var level = 0
@@ -387,15 +392,78 @@ ${white}${enemyName}:
 }
 
 function sell(item) {
+    if (item == undefined) return `That item dosent exist\n${showStats()}`
     if (item.sellPrice !== null && inv.includes(item.name)) {
         removeFirst(inv, item.name)
         coins = coins + item.sellPrice
-        refresh()
-        if (inv.includes(item.name) == false) {
-            equip(items.fist)
-            refresh()
+        if (inv.includes(item.name) === false) {
+            if (item.slots.includes('mainHand')) {
+                equip(items.fist)
+            }
+            if (item.slots.includes('offHand')) {
+                if (items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+                    maxHealth = maxHealth - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentOffhand)
+
+                }
+                if (items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+                    damage = damage - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentOffhand)
+                }
+                currentOffhand = 'None'
+            }
+            if (item.slots.includes('head')) {
+                if (items[currentHead.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+                    maxHealth = maxHealth - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentHead)
+
+                }
+                if (items[currentHead.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+                    damage = damage - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentHead)
+                }
+                currentHead = 'None'
+            }
+            if (item.slots.includes('chest')) {
+                if (items[currentChest.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+                    maxHealth = maxHealth - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentChest)
+
+                }
+                if (items[currentChest.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+                    damage = damage - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentChest)
+                }
+                currentChest = 'None'
+            }
+            if (item.slots.includes('legs')) {
+                if (items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+                    maxHealth = maxHealth - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentLegs)
+
+                }
+                if (items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+                    damage = damage - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentLegs)
+                }
+                currentLegs = 'None'
+            }
+            if (item.slots.includes('boots')) {
+                if (items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+                    maxHealth = maxHealth - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentBoots)
+
+                }
+                if (items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+                    damage = damage - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
+                    removeFirst(equiped, currentBoots)
+                }
+                currentBoots = 'None'
+            }
         }
-        return `${yellow}( + ${item.sellPrice} Coins )]
+        refresh()
+        return `${green}Sold: ${item.name}]
+${yellow}( + ${item.sellPrice} Coins )]
 ${showStats()}`
     }
     else {
@@ -416,15 +484,88 @@ function levelUp() {
         else {
             xp = xp - xpToNext 
             xpToNext = levels[level].req
+            maxHealth = maxHealth - levels[level - 1].hpBoost
             maxHealth = maxHealth + levels[level].hpBoost
+            damage = damage - levels[level - 1].dmgBoost
             damage = damage + levels[level].dmgBoost
         }
     }
 }
 
 
+function unequip(item) {
+    if (item.slots.includes('mainHand')) {
+        equip(items.fist)
+    }
+    if (item.slots.includes('offHand')) {
+        if (items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+            maxHealth = maxHealth - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentOffhand)
+
+        }
+        if (items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+            damage = damage - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentOffhand)
+        }
+        currentOffhand = 'None'
+    }
+    if (item.slots.includes('head')) {
+        if (items[currentHead.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+            maxHealth = maxHealth - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentHead)
+
+        }
+        if (items[currentHead.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+            damage = damage - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentHead)
+        }
+        currentHead = 'None'
+    }
+    if (item.slots.includes('chest')) {
+        if (items[currentChest.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+            maxHealth = maxHealth - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentChest)
+
+        }
+        if (items[currentChest.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+            damage = damage - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentChest)
+        }
+        currentChest = 'None'
+    }
+    if (item.slots.includes('legs')) {
+        if (items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+            maxHealth = maxHealth - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentLegs)
+
+        }
+        if (items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+            damage = damage - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentLegs)
+        }
+        currentLegs = 'None'
+    }
+    if (item.slots.includes('boots')) {
+        if (items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
+            maxHealth = maxHealth - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentBoots)
+
+        }
+        if (items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostType1 == 'damage') {
+            damage = damage - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
+            removeFirst(equiped, currentBoots)
+        }
+        currentBoots = 'None'
+    }
+    refresh()
+    return `Unequiped\n${showStats()}`
+}
+
 function equip(item) {
-    if (item == undefined || item == null) return 'you dont own that item'
+    if (item == undefined || item == null) {
+        refresh()
+        return `You dont own that item\n${showStats()}`
+    }
     if (inv.includes(item.name)) {
         function addBoosts(type) {
             if (type == 'mainHand' && equiped.includes(item.name) === false) {
@@ -455,6 +596,36 @@ function equip(item) {
                     }
                     equiped.push(item.name)
                     currentWeapon = item.name
+                }
+            }
+            if (type == 'offHand' && equiped.includes(item.name) === false) {
+                if (item.boostType1 === 'health') {
+                    console.log('health')
+                    if (equiped.includes(currentOffhand)) {
+                        maxHealth = maxHealth - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
+                        maxHealth = maxHealth + item.boostNum1
+                        removeFirst(equiped, currentOffhand)
+                    }
+                    else {
+                        maxHealth = maxHealth + item.boostNum1
+                        removeFirst(equiped, currentOffhand)
+                    }
+                    equiped.push(item.name)
+                    currentOffhand = item.name
+                }
+                if (item.boostType1 === 'damage') {
+                    console.log('damage')
+                    if (equiped.includes(currentOffhand)) {
+                        damage = damage - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
+                        damage = damage + item.boostNum1
+                        removeFirst(equiped, currentOffhand)
+                    }
+                    else {
+                        damage = damage + item.boostNum1
+                        removeFirst(equiped, currentOffhand)
+                    }
+                    equiped.push(item.name)
+                    currentOffhand = item.name
                 }
             }
             if (type == 'head' && equiped.includes(item.name) === false) {
@@ -517,19 +688,90 @@ function equip(item) {
                     currentChest = item.name
                 }
             }
+            if (type == 'legs' && equiped.includes(item.name) === false) {
+                if (item.boostType1 === 'health') {
+                    console.log('health')
+                    if (equiped.includes(currentLegs)) {
+                        maxHealth = maxHealth - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
+                        maxHealth = maxHealth + item.boostNum1
+                        removeFirst(equiped, currentLegs)
+                    }
+                    else {
+                        maxHealth = maxHealth + item.boostNum1
+                        removeFirst(equiped, currentLegs)
+                    }
+                    equiped.push(item.name)
+                    currentLegs = item.name
+                }
+                if (item.boostType1 === 'damage') {
+                    console.log('damage')
+                    if (equiped.includes(currentLegs)) {
+                        damage = damage - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
+                        damage = damage + item.boostNum1
+                        removeFirst(equiped, currentLegs)
+                    }
+                    else {
+                        damage = damage + item.boostNum1
+                        removeFirst(equiped, currentLegs)
+                    }
+                    equiped.push(item.name)
+                    currentLegs = item.name
+                }
+            }
+            if (type == 'boots' && equiped.includes(item.name) === false) {
+                if (item.boostType1 === 'health') {
+                    console.log('health')
+                    if (equiped.includes(currentBoots)) {
+                        maxHealth = maxHealth - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
+                        maxHealth = maxHealth + item.boostNum1
+                        removeFirst(equiped, currentBoots)
+                    }
+                    else {
+                        maxHealth = maxHealth + item.boostNum1
+                        removeFirst(equiped, currentBoots)
+                    }
+                    equiped.push(item.name)
+                    currentBoots = item.name
+                }
+                if (item.boostType1 === 'damage') {
+                    console.log('damage')
+                    if (equiped.includes(currentBoots)) {
+                        damage = damage - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
+                        damage = damage + item.boostNum1
+                        removeFirst(equiped, currentBoots)
+                    }
+                    else {
+                        damage = damage + item.boostNum1
+                        removeFirst(equiped, currentBoots)
+                    }
+                    equiped.push(item.name)
+                    currentBoots = item.name
+                }
+            }
         }
         if ((item.slots).includes('mainHand')) {
             addBoosts('mainHand')
         }
+        if ((item.slots).includes('offHand')) {
+            addBoosts('offHand')
+        }
         if ((item.slots).includes('head')) {
             addBoosts('head')
         }
-        else if ((item.slots).includes('chest')) {
+        if ((item.slots).includes('chest')) {
             addBoosts('chest')
         }
-        return 'equiped'
+        if ((item.slots).includes('legs')) {
+            addBoosts('legs')
+        }
+        if ((item.slots).includes('boots')) {
+            addBoosts('boots')
+        }
+        refresh()
+        return `Equiped\n${showStats()}`
     }
-    return 'you dont own that item'
+    refresh()
+    return `You dont own that item\n${showStats()}`
 }
 
 function inspect(item) {
@@ -576,7 +818,6 @@ function save() {
         level: level,
         xp: xp,
         xpToNext: xpToNext,
-        allBoosts: allBoosts,
         equiped: equiped
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
@@ -598,7 +839,6 @@ function load() {
     if (typeof savedGame.level !== 'undefined') level = savedGame.level
     if (typeof savedGame.xp !== 'undefined') xp = savedGame.xp
     if (typeof savedGame.xpToNext !== 'undefined') xpToNext = savedGame.xpToNext
-    if (typeof savedGame.allBoosts !== 'undefined') allBoosts = savedGame.allBoosts
     if (typeof savedGame.equiped !== 'undefined') equiped = savedGame.equiped
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     

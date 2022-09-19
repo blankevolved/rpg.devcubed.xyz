@@ -909,6 +909,10 @@ window.onload = function() {
     load();
 }
 
+document.onload = function() {
+    load();
+}
+
 window.setInterval(function(){
     // call your function here
     if (currentEnemy === null) health = health + 1

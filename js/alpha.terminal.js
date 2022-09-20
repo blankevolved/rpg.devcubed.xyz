@@ -94,7 +94,7 @@ jQuery(function($) {
             }
         }
     }, {
-        greetings: `${showStats()}\n`,
+        greetings: `${refresh()}${showStats()}\n`,
         prompt: `${white}>>> `,
     });
 });

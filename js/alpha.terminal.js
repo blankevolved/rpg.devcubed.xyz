@@ -36,10 +36,9 @@ jQuery(function($) {
             this.clear()
             this.echo(attack())
         },
-        inv: function(page) {
+        inv: function() {
             this.clear();
-            if (page === undefined) page = 1
-            this.echo(invList(page))
+            this.echo(invList())
         },
         equip: function(item) {
             this.clear();

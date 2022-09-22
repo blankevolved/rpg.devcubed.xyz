@@ -10,7 +10,7 @@ jQuery(function($) {
         },
         fight: function() {
             this.clear()
-            if (level <= 2) {
+            if (level <= 3) {
                 this.echo(fight(0, level));
             }
         },
@@ -38,26 +38,39 @@ jQuery(function($) {
         },
         inv: function(page) {
             this.clear();
+            if (page === undefined) page = 1
             this.echo(invList(page))
         },
         equip: function(item) {
             this.clear();
-            this.echo(equip(items[item]))
+            if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to unequip\n${showStats()}\n`)
+            else {
+                this.echo(equip(items[item]))
+            }
             refresh()
         },
         unequip: function(item) {
             this.clear();
-            this.echo(unequip(items[item]))
+            if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to unequip\n${showStats()}\n`)
+            else {
+                this.echo(unequip(items[item]))
+            }
             refresh()
         },
         sell: function(item) {
             this.clear();
-            this.echo(sell(items[item]))
+            if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to sell\n${showStats()}\n`)
+            else {
+                this.echo(sell(items[item]))
+            }
             refresh()
         },
         inspect: function(item) {
             this.clear();
-            this.echo(inspect(items[item]))
+            if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to sell\n${showStats()}\n`)
+            else {                
+                this.echo(inspect(items[item]))
+            }
         },
         listItems: function() {
             this.clear();
@@ -96,5 +109,6 @@ jQuery(function($) {
     }, {
         greetings: `${showStats()}\n`,
         prompt: `${white}>>> `,
+        checkArity: false
     });
 });

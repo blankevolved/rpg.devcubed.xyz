@@ -147,17 +147,20 @@ const levels = {
     0: {
         'req': 50,
         'hpBoost':null,
-        'dmgBoost':null
+        'dmgBoost':null,
+        'regenBoost':null
     },
     1: {
         'req': 100,
         'hpBoost':.5,
-        'dmgBoost':1
+        'dmgBoost':1,
+        'regenBoost':0.1
     },
     2: {
         'req': 150,
         'hpBoost':1,
-        'dmgBoost':1.5
+        'dmgBoost':1.5,
+        'regenBoost':0.15
     }
 }
 var level = 0
@@ -166,6 +169,7 @@ var health = 10
 var maxHealth = 10
 var damage = 1
 var xp = 0
+var regen = 0.05
 var xpToNext = levels[level].req
 var currentEnemy = null
 var currentEnemyName = null
@@ -188,30 +192,10 @@ var stats = null
 
 var inv = ['Fist']
 var equiped = []
-var allBoosts = {
-    'mainHand':{
-        'healthBoost1':0,
-        'damageBoost1':0,
-        'healthDeboost1':0,
-        'damageDeboost1':0
-    },
-
-    'head':{
-        'healthBoost1':0,
-        'damageBoost1':0,
-        'healthDeboost1':0,
-        'damageDeboost1':0
-    },
-    
-    'chest':{
-        'healthBoost1':0,
-        'damageBoost1':0,
-        'healthDeboost1':0,
-        'damageDeboost1':0
-    },
-}
 
 var devMode = false 
+const version = '1.0.0a'
+
 
 const help = `${white}Help:
     help: get some help
@@ -248,7 +232,6 @@ function removeFirst(arr, target) {
     return arr;
   }
 
-const osError = `${pink}{${white}os${pink}}`
 
 
 refresh()
@@ -269,9 +252,10 @@ function refresh() {
     stats = `${white}Stats:
     ${white}Coins: ${yellow}{ ${coins.toFixed(2)} }]
     ${white}Level: ${green}{ ${level} }]
-    ${white}XP: ${darkGreen}{ ${xp}/${xpToNext} }]
-    ${white}HP: ${red}{ ${health}/${maxHealth} } ( +${levels[level].hpBoost} )]
-    ${white}Damage: ${blue}{ ${damage} } ( +${levels[level].dmgBoost} )]`.replaceAll(null, '0')
+    ${white}XP: ${darkGreen}{ ${xp.toFixed(2)}/${xpToNext.toFixed(2)} }]
+    ${white}HP: ${red}{ ${health.toFixed(2)}/${maxHealth.toFixed(2)} } ( +${levels[level].hpBoost} )]
+    ${white}Regen: ${lightRedPink}{ ${regen.toFixed(2)}/s } ( +${levels[level].regenBoost} ) ]
+    ${white}Damage: ${blue}{ ${damage.toFixed(2)} } ( +${levels[level].dmgBoost} )]`.replaceAll(null, 0)
 
     bodyMap = `
     ${white}Helmet: ${redPink}{ ${currentHead} }]
@@ -287,6 +271,7 @@ function showStats() {
     return `${stats}
 ${bodyMap}`
 }
+
 
 function invList(page) {
     if (page == 1) {
@@ -413,12 +398,12 @@ function attack() {
 
     if (currentEnemy.health <= 0 && currentEnemy !== null) {
         currentEnemy.health = currentEnemy.baseHealth
-        coinsLength = Math.floor(Math.random() * currentEnemy.coinDrop.length)
-        itemLength = Math.floor(Math.random() * currentEnemy.itemDrop.length)
-        xpLength = Math.floor(Math.random() * currentEnemy.xpDrop.length)
-        addedCoins = currentEnemy.coinDrop[coinsLength]
-        addedWeapons = currentEnemy.itemDrop[itemLength]
-        addedXP = currentEnemy.xpDrop[xpLength]
+        var coinsLength = Math.floor(Math.random() * currentEnemy.coinDrop.length)
+        var itemLength = Math.floor(Math.random() * currentEnemy.itemDrop.length)
+        var xpLength = Math.floor(Math.random() * currentEnemy.xpDrop.length)
+        var addedCoins = currentEnemy.coinDrop[coinsLength]
+        var addedWeapons = currentEnemy.itemDrop[itemLength]
+        var addedXP = currentEnemy.xpDrop[xpLength]
         if (addedWeapons !== null) inv.push(addedWeapons)
         coins = coins + addedCoins
         xp = xp + addedXP
@@ -548,6 +533,8 @@ function levelUp() {
             maxHealth = maxHealth + levels[level].hpBoost
             damage = damage - levels[level - 1].dmgBoost
             damage = damage + levels[level].dmgBoost
+            regen = regen - levels[level - 1].regenBoost
+            regen = regen + levels[level].regenBoost
         }
     }
 }
@@ -878,7 +865,8 @@ function save() {
         level: level,
         xp: xp,
         xpToNext: xpToNext,
-        equiped: equiped
+        equiped: equiped,
+        regen: regen
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
 }
@@ -900,6 +888,7 @@ function load() {
     if (typeof savedGame.xp !== 'undefined') xp = savedGame.xp
     if (typeof savedGame.xpToNext !== 'undefined') xpToNext = savedGame.xpToNext
     if (typeof savedGame.equiped !== 'undefined') equiped = savedGame.equiped
+    if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     
     refresh()
@@ -907,20 +896,17 @@ function load() {
 
 window.onload = function() {
     load();
-}
-
-document.onload = function() {
-    load();
+    $('#version').text(`v${version}`);
 }
 
 window.setInterval(function(){
     // call your function here
-    if (currentEnemy === null) health = health + 1
+    if (currentEnemy === null) health = health + regen
     if (health > maxHealth) {
         health = maxHealth
     }
     refresh()
-}, 15000);  // Change Interval here to test. For eg: 5000 for 5 sec
+}, 1000);  // Change Interval here to test. For eg: 5000 for 5 sec
 
 window.setInterval(function(){
     // call your function here

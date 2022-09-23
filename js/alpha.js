@@ -194,7 +194,7 @@ var inv = ['Fist']
 var equiped = []
 
 var devMode = false 
-const version = '1.0.0a'
+const version = '1.0.2a'
 
 
 const help = `${white}Help:

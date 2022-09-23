@@ -189,15 +189,12 @@ var currentOffhand = null
 
 var bodyMap = null
 var stats = null
-var itemID = 0
-var invAmt = {
-    0:1
-}
+
 var inv = ['Fist']
 var equiped = []
 
 var devMode = false 
-const version = '2.0.0a'
+const version = '1.0.0a'
 
 
 const help = `${white}Help:
@@ -276,13 +273,38 @@ ${bodyMap}`
 }
 
 
-function invList() {
-    return`${white}Inventory:
-    {${inv[0]} x${invAmt[0]}}    {${inv[1]} x${invAmt[1]}}    {${inv[2]} x${invAmt[2]}}    {${inv[3]} x${invAmt[3]}}    {${inv[4]} x${invAmt[4]}}
-    {${inv[5]} x${invAmt[5]}}    {${inv[6]} x${invAmt[6]}}    {${inv[7]} x${invAmt[7]}}    {${inv[8]} x${invAmt[8]}}    {${inv[9]} x${invAmt[9]}}
-    {${inv[10]} x${invAmt[10]}}    {${inv[11]} x${invAmt[11]}}    {${inv[12]} x${invAmt[12]}}    {${inv[13]} x${invAmt[13]}}    {${inv[14]} x${invAmt[14]}}
-    {${inv[15]} x${invAmt[15]}}    {${inv[16]} x${invAmt[16]}}    {${inv[17]} x${invAmt[17]}}    {${inv[18]} x${invAmt[18]}}    {${inv[19]} x${invAmt[19]}}]
-    `.replaceAll('xundefined}', '').replaceAll('{undefined', '').replaceAll('undefined', '').replaceAll('undefined', '')
+function invList(page) {
+    if (page == 1) {
+        return`${white}Inventory Page 1:
+        {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
+        {${inv[5]}}    {${inv[6]}}    {${inv[7]}}    {${inv[8]}}    {${inv[9]}}
+        {${inv[10]}}    {${inv[11]}}    {${inv[12]}}    {${inv[13]}}    {${inv[14]}}
+        {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}
+        {${inv[20]}}    {${inv[21]}}    {${inv[22]}}    {${inv[23]}}    {${inv[24]}}
+        {${inv[25]}}    {${inv[26]}}    {${inv[27]}}    {${inv[28]}}    {${inv[29]}}
+        {${inv[30]}}    {${inv[31]}}    {${inv[32]}}    {${inv[33]}}    {${inv[34]}}
+        {${inv[35]}}    {${inv[36]}}    {${inv[37]}}    {${inv[38]}}    {${inv[39]}}
+        {${inv[40]}}    {${inv[41]}}    {${inv[42]}}    {${inv[43]}}    {${inv[44]}}
+        {${inv[45]}}    {${inv[46]}}    {${inv[47]}}    {${inv[48]}}    {${inv[49]}}]
+    `.replaceAll('{undefined}', '')
+    }
+    if (page == 2) {
+        return`${white}Inventory Page 2:
+        {${inv[50]}}    {${inv[51]}}    {${inv[52]}}    {${inv[53]}}    {${inv[54]}}
+        {${inv[55]}}    {${inv[56]}}    {${inv[57]}}    {${inv[58]}}    {${inv[59]}}
+        {${inv[60]}}    {${inv[61]}}    {${inv[62]}}    {${inv[63]}}    {${inv[64]}}
+        {${inv[65]}}    {${inv[66]}}    {${inv[67]}}    {${inv[68]}}    {${inv[69]}}
+        {${inv[70]}}    {${inv[71]}}    {${inv[72]}}    {${inv[73]}}    {${inv[74]}}
+        {${inv[75]}}    {${inv[76]}}    {${inv[77]}}    {${inv[78]}}    {${inv[79]}}
+        {${inv[80]}}    {${inv[81]}}    {${inv[82]}}    {${inv[83]}}    {${inv[84]}}
+        {${inv[85]}}    {${inv[86]}}    {${inv[87]}}    {${inv[88]}}    {${inv[89]}}
+        {${inv[90]}}    {${inv[91]}}    {${inv[92]}}    {${inv[93]}}    {${inv[94]}}
+        {${inv[95]}}    {${inv[96]}}    {${inv[97]}}    {${inv[98]}}    {${inv[99]}}]
+    `.replaceAll('{undefined}', '')
+    }
+    else {
+        return `${white}That page dosent exist]`
+    }
 }
 
 
@@ -382,18 +404,7 @@ function attack() {
         var addedCoins = currentEnemy.coinDrop[coinsLength]
         var addedWeapons = currentEnemy.itemDrop[itemLength]
         var addedXP = currentEnemy.xpDrop[xpLength]
-        if (addedWeapons !== null) {
-            if (inv.includes(addedWeapons) === false) {
-                inv.push(addedWeapons)
-                itemID = itemID + 1
-            }
-            if (invAmt[itemID] === undefined) {
-                invAmt[itemID] = 1
-            }
-            else {
-                invAmt[itemID] = invAmt[itemID] + 1
-            }
-        }
+        if (addedWeapons !== null) inv.push(addedWeapons)
         coins = coins + addedCoins
         xp = xp + addedXP
         refresh()
@@ -855,9 +866,7 @@ function save() {
         xp: xp,
         xpToNext: xpToNext,
         equiped: equiped,
-        regen: regen,
-        invAmt: invAmt,
-        itemID: itemID
+        regen: regen
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
 }
@@ -880,8 +889,6 @@ function load() {
     if (typeof savedGame.xpToNext !== 'undefined') xpToNext = savedGame.xpToNext
     if (typeof savedGame.equiped !== 'undefined') equiped = savedGame.equiped
     if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
-    if (typeof savedGame.invAmt !== 'undefined') invAmt = savedGame.invAmt
-    if (typeof savedGame.itemID !== 'undefined') itemID = savedGame.itemID
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     
     refresh()

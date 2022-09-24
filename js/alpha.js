@@ -1,5 +1,6 @@
 
 var items = {
+    // Main Hand //
     'fist': {
         'boostType1': 'damage',
         'boostNum1': 0,
@@ -26,6 +27,25 @@ var items = {
         'desc': `A basic sword
     ${green}+4 damage]`
     },
+    // Off Hand //
+    'small_shield': {
+        'boostType1': 'health',
+        'boostNum1': 1,
+        'name': 'Small Shield',
+        'slots': ['offHand'],
+        'sellPrice':2.5,
+        'desc': `A smaller shield
+    ${green}+1 health]`
+    },
+    'shield': {
+        'boostType1': 'health',
+        'boostNum1': 2.5,
+        'name': 'Shield',
+        'slots': ['offHand'],
+        'sellPrice':3.5,
+        'desc': `A shield
+    ${green}+2.5 health]`
+    },
     // Helmets //
     'leather_helmet': {
         'boostType1': 'health',
@@ -41,7 +61,7 @@ var items = {
         'boostNum1': 3,
         'name': 'Iron Helmet',
         'slots': ['head'],
-        'sellPrice':2,
+        'sellPrice':4,
         'desc': `A iron helmet
     ${green}+3 Health]`
     },
@@ -51,7 +71,7 @@ var items = {
         'boostNum1': 3,
         'name': 'Leather Chestplate',
         'slots': ['chest'],
-        'sellPrice':2,
+        'sellPrice':6,
         'desc': `A leather chestplate
     ${green}+3 Health]`
     },
@@ -61,7 +81,7 @@ var items = {
         'boostNum1': 2,
         'name': 'Leather Leggings',
         'slots': ['legs'],
-        'sellPrice':2,
+        'sellPrice':5,
         'desc': `A pair of leather leggings
     ${green}+2 Health]`
     },
@@ -79,7 +99,7 @@ var items = {
 
 
 const enemys = {
-    0: {
+    'goblins': {
         'name': 'Goblin',
         'lvl0': {
             'baseHealth':5,
@@ -92,14 +112,14 @@ const enemys = {
                 'Dagger', 
                 'Dagger', 
                 'Dagger', 
-                'Dagger', 
+                'Shield', 
                 'Sword', 
                 'Leather Helmet', 
                 'Leather Chestplate', 
                 'Leather Leggings', 
                 'Leather Boots',
-                null,
-                null,
+                'Small Shield',
+                'Small Shield',
                 null, 
                 null,
                 null, 
@@ -120,9 +140,9 @@ const enemys = {
             'coinDrop': [17, 20, 22],
             'itemDrop': ['Dagger',
                 'Dagger', 
-                'Dagger', 
-                'Dagger', 
-                'Dagger', 
+                'Small Shield', 
+                'Small Shield', 
+                'Small Shield', 
                 'Sword', 
                 'Sword', 
                 'Leather Helmet', 
@@ -132,11 +152,10 @@ const enemys = {
                 'Leather Leggings', 
                 'Leather Leggings', 
                 'Leather Boots', 
-                'Leather Boots', 
-                'Leather Boots',
-                null, 
-                null, 
-                null, 
+                'Leather Boots', ,
+                'Shield', 
+                'Shield', 
+                null,
                 null
             ],
         },
@@ -157,10 +176,16 @@ const levels = {
         'regenBoost':0.1
     },
     2: {
-        'req': 150,
+        'req': 250,
         'hpBoost':1,
         'dmgBoost':1.5,
         'regenBoost':0.15
+    },
+    3: {
+        'req': 350,
+        'hpBoost':2,
+        'dmgBoost':2.5,
+        'regenBoost':0.25
     }
 }
 var level = 0
@@ -194,7 +219,7 @@ var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.0.2a'
+const version = '1.1.0a'
 
 
 const help = `${white}Help:
@@ -303,7 +328,7 @@ function invList(page) {
     `.replaceAll('{undefined}', '')
     }
     else {
-        return `${white}That page doesn't exist]`
+        return `That page doesn't exist`
     }
 }
 
@@ -318,11 +343,43 @@ function death() {
     refresh()
 }
 
-function fight(id, level) {
-    var enemy = enemys[id]['lvl' + level.toString()]
-    var enemyName = enemys[id].name
-    if (enemy === undefined) {
-        enemy = enemys[id]['lvl' + (level - 1).toString()]
+function fight(id, enlevel) {
+    if (currentEnemy !== null) {
+        var enemyStats = `${showStats()}
+
+${white}${currentEnemyName}:
+    ${white}Health: ]${red}{ ${currentEnemy.health}/${currentEnemy.maxHealth} }]
+    ${white}Damage: ]${blue}{ ${currentEnemy.damage} }]
+`
+        return enemyStats
+    }
+    if (id == undefined) {
+        return `Goblins (fight goblins)`
+    }
+    if (id =='gobs') {
+        id = 'goblins'
+    }
+    if (id == 'goblins') {
+        if (enlevel == undefined) {
+            return `Your Level: ${green}{ ${level} }]
+Level 0 (fight goblins 0)
+Level 1 (fight goblins 1)`
+        }
+        if (enlevel !== undefined && enemys[id]['lvl' + enlevel.toString()] == undefined) {
+            return `That level dosen't exist!`
+        }
+    }
+    else {
+        return `That enemy dosent exist`
+    }
+    if (enlevel <= level) {
+        if (id == 'goblins') {
+            var enemy = enemys[id]['lvl' + enlevel.toString()]
+            var enemyName = enemys[id].name
+        }
+    }
+    else {
+        return `Your Level isn't high enough`
     }
     refresh()
     var enemyStats = `${showStats()}
@@ -331,13 +388,13 @@ ${white}${enemyName}:
     ${white}Health: ]${red}{ ${enemy.health}/${enemy.maxHealth} }]
     ${white}Damage: ]${blue}{ ${enemy.damage} }]
 `
-
     if (currentEnemy !== null) return enemyStats
 
     currentEnemy = enemy
     currentEnemyName = enemyName
     return enemyStats
 }
+
 
 function run() {
     if (currentEnemy === null) return `${white}Cant run until you initiate a fight with the ]${blue}fight] ${white}command]`
@@ -895,8 +952,8 @@ function load() {
 }
 
 window.onload = function() {
-    load();
     $('#version').text(`v${version}`);
+    load();
 }
 
 window.setInterval(function(){

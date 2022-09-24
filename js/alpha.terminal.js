@@ -8,11 +8,9 @@ jQuery(function($) {
             this.clear();
             this.echo(`${showStats()}\n`);
         },
-        fight: function() {
+        fight: function(id, level) {
             this.clear()
-            if (level <= 3) {
-                this.echo(fight(0, level));
-            }
+            this.echo(fight(id, level))
         },
         run: function() {
             this.clear();
@@ -22,11 +20,9 @@ jQuery(function($) {
             this.clear()
             this.echo(attack())
         },
-        f: function() {
+        f: function(id, level) {
             this.clear()
-            if (level <= 3) {
-                this.echo(fight(0, level));
-            }
+            this.echo(fight(id, level))
         },
         r: function() {
             this.clear();
@@ -35,6 +31,10 @@ jQuery(function($) {
         a: function() {
             this.clear()
             this.echo(attack())
+        },
+        sf: function() {
+            this.clear()
+            this.echo(showFight())
         },
         inv: function(page) {
             this.clear();

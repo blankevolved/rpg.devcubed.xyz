@@ -39,7 +39,7 @@ const tutorial = `${white}Tutorial:
     ${white}Inventory:
         {Fist}]
     
-    Your equiped items is shown in your stats in ${purple}purple]/${redPink}redish pink]
+    Your equipped items is shown in your stats in ${purple}purple]/${redPink}redish pink]
 
     ${white}Helmet: ${redPink}{ None }]
     ${white}Chest: ${redPink}{ None }]
@@ -50,7 +50,7 @@ const tutorial = `${white}Tutorial:
     ${white}Offhand: ${purple}{ None }]
 
     You can equip other items with the ${blue}equip] command followed by the item name 
-    If it's in your inventory it'll be equiped
+    If it's in your inventory it'll be equipped
 
     Items will be added as you find/buy them
     Items can be dropped from enemys

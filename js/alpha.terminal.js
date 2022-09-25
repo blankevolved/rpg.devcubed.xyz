@@ -43,7 +43,7 @@ jQuery(function($) {
         },
         equip: function(item) {
             this.clear();
-            if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to unequip\n${showStats()}\n`)
+            if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to equip\n${showStats()}\n`)
             else {
                 this.echo(equip(items[item]))
             }

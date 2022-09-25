@@ -106,7 +106,7 @@ const enemys = {
             'health':5,
             'maxHealth':5,
             'damage':1,
-            'xpDrop':[1, 3, 5],
+            'xpDrop':[3, 5, 7],
             'coinDrop': [13, 14, 15],
             'itemDrop': [
                 'Dagger', 
@@ -136,7 +136,7 @@ const enemys = {
             'health':8,
             'maxHealth':8,
             'damage':3,
-            'xpDrop':[2, 5, 8],
+            'xpDrop':[5, 8, 13],
             'coinDrop': [17, 20, 22],
             'itemDrop': ['Dagger',
                 'Dagger', 
@@ -219,7 +219,7 @@ var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.1.1a'
+const version = '1.1.2a'
 
 
 const help = `${white}Help:

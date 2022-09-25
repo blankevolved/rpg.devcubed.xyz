@@ -20,6 +20,18 @@ jQuery(function($) {
             this.clear()
             this.echo(attack())
         },
+        shop: function() {
+            this.clear()
+            this.echo(openShop())
+        },
+        buy: function(item) {
+            this.clear();
+            this.echo(buy(item))
+        },
+        use: function(item) {
+            this.clear();
+            this.echo(use(items[item]))
+        },
         f: function(id, level) {
             this.clear()
             this.echo(fight(id, level))
@@ -31,10 +43,6 @@ jQuery(function($) {
         a: function() {
             this.clear()
             this.echo(attack())
-        },
-        sf: function() {
-            this.clear()
-            this.echo(showFight())
         },
         inv: function(page) {
             this.clear();

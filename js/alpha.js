@@ -112,7 +112,7 @@ const items = {
         'slots': ['consum'],
         'sellPrice':5,
         'desc': `A useful health potion
-    ${green}+1.5 Health]
+    ${green}+5 Health]
     ${red}Consumes on use]`
     },
 }
@@ -282,7 +282,7 @@ var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.2.0a'
+const version = '1.2.1a'
 
 
 const help = `${white}Help:

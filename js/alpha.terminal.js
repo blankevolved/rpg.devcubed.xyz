@@ -49,6 +49,19 @@ jQuery(function($) {
             if (page === undefined) page = 1
             this.echo(invList(page))
         },
+        craft: function(item) {
+            this.clear();
+            if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to craft\n${showStats()}\n`)
+            else {
+                this.echo(craft(items[item]))
+            }
+            refresh()
+        },
+        recipes: function() {
+            this.clear();
+            this.echo(recipes())
+            refresh()
+        },
         equip: function(item) {
             this.clear();
             if (item === undefined) this.echo(`${red}{ERROR} Please specify a item to equip\n${showStats()}\n`)

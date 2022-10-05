@@ -27,6 +27,17 @@ const items = {
         'desc': `A basic sword
     ${green}+4 damage]`
     },
+    'slime_sword': {
+        'itemReq':'Slime Ball',
+        'itemAmt':25,
+        'boostType1': 'damage',
+        'boostNum1': 6,
+        'name': 'Slime Sword',
+        'slots': ['mainHand'],
+        'sellPrice':null,
+        'desc': `A sword made from slimes
+    ${green}+6 damage]`
+    },
     // Off Hand //
     'small_shield': {
         'boostType1': 'health',
@@ -114,6 +125,15 @@ const items = {
         'desc': `A useful health potion
     ${green}+5 Health]
     ${red}Consumes on use]`
+    },
+    // Crafting //
+    'slime_ball': {
+        'boostType1': 'health',
+        'boostNum1': 0,
+        'name': 'Slime Ball',
+        'slots': ['craft'],
+        'sellPrice':1,
+        'desc': `A slime ball used for crafting`
     },
 }
 
@@ -222,6 +242,21 @@ const enemys = {
             ],
         },
     },
+    'slimes': {
+        'name': 'Slime',
+        'lvl2': {
+            'baseHealth':20,
+            'health':20,
+            'maxHealth':20,
+            'damage':0.5,
+            'xpDrop':[5, 3, 2],
+            'coinDrop': [2, 3, 5],
+            'itemDrop': [
+                null
+            ],
+            'alwaysDrop': ['Slime Ball']
+        },
+    },
 }
 
 const levels = {
@@ -278,11 +313,12 @@ var currentOffhand = null
 var bodyMap = null
 var stats = null
 
+var stackedInv = []
 var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.2.1a'
+const version = '1.3.0a'
 
 
 const help = `${white}Help:
@@ -304,6 +340,14 @@ const help = `${white}Help:
     unequip: put away a item in your inventory
     
     sell: sell any item in your inventory
+
+    shop: open the shop
+
+    buy: buy an item
+
+    craft: craft an item
+
+    recipes: check out the recipes for crafting
     
     listItems: list every item in the game
     
@@ -318,8 +362,11 @@ function removeFirst(arr, target) {
       arr.splice(idx, 1);
     }
     return arr;
-  }
+}
 
+var count = new Map([...new Set(stackedInv)].map(
+    x => [x, stackedInv.filter(y => y === x).length]
+));
 
 
 refresh()
@@ -365,33 +412,38 @@ ${bodyMap}`
 
 
 function invList(page) {
+    var stacked = `Slime Balls: ${count.get('Slime Ball')}`
     if (page == 1) {
         return`${white}Inventory Page 1:
-        {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
-        {${inv[5]}}    {${inv[6]}}    {${inv[7]}}    {${inv[8]}}    {${inv[9]}}
-        {${inv[10]}}    {${inv[11]}}    {${inv[12]}}    {${inv[13]}}    {${inv[14]}}
-        {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}
-        {${inv[20]}}    {${inv[21]}}    {${inv[22]}}    {${inv[23]}}    {${inv[24]}}
-        {${inv[25]}}    {${inv[26]}}    {${inv[27]}}    {${inv[28]}}    {${inv[29]}}
-        {${inv[30]}}    {${inv[31]}}    {${inv[32]}}    {${inv[33]}}    {${inv[34]}}
-        {${inv[35]}}    {${inv[36]}}    {${inv[37]}}    {${inv[38]}}    {${inv[39]}}
-        {${inv[40]}}    {${inv[41]}}    {${inv[42]}}    {${inv[43]}}    {${inv[44]}}
-        {${inv[45]}}    {${inv[46]}}    {${inv[47]}}    {${inv[48]}}    {${inv[49]}}]
-    `.replaceAll('{undefined}', '')
+    {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
+    {${inv[5]}}    {${inv[6]}}    {${inv[7]}}    {${inv[8]}}    {${inv[9]}}
+    {${inv[10]}}    {${inv[11]}}    {${inv[12]}}    {${inv[13]}}    {${inv[14]}}
+    {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}
+    {${inv[20]}}    {${inv[21]}}    {${inv[22]}}    {${inv[23]}}    {${inv[24]}}
+    {${inv[25]}}    {${inv[26]}}    {${inv[27]}}    {${inv[28]}}    {${inv[29]}}
+    {${inv[30]}}    {${inv[31]}}    {${inv[32]}}    {${inv[33]}}    {${inv[34]}}
+    {${inv[35]}}    {${inv[36]}}    {${inv[37]}}    {${inv[38]}}    {${inv[39]}}
+    {${inv[40]}}    {${inv[41]}}    {${inv[42]}}    {${inv[43]}}    {${inv[44]}}
+    {${inv[45]}}    {${inv[46]}}    {${inv[47]}}    {${inv[48]}}    {${inv[49]}}]
+
+${stacked}
+    `.replaceAll('{undefined}', '').replaceAll('undefined', '0')
     }
     if (page == 2) {
         return`${white}Inventory Page 2:
-        {${inv[50]}}    {${inv[51]}}    {${inv[52]}}    {${inv[53]}}    {${inv[54]}}
-        {${inv[55]}}    {${inv[56]}}    {${inv[57]}}    {${inv[58]}}    {${inv[59]}}
-        {${inv[60]}}    {${inv[61]}}    {${inv[62]}}    {${inv[63]}}    {${inv[64]}}
-        {${inv[65]}}    {${inv[66]}}    {${inv[67]}}    {${inv[68]}}    {${inv[69]}}
-        {${inv[70]}}    {${inv[71]}}    {${inv[72]}}    {${inv[73]}}    {${inv[74]}}
-        {${inv[75]}}    {${inv[76]}}    {${inv[77]}}    {${inv[78]}}    {${inv[79]}}
-        {${inv[80]}}    {${inv[81]}}    {${inv[82]}}    {${inv[83]}}    {${inv[84]}}
-        {${inv[85]}}    {${inv[86]}}    {${inv[87]}}    {${inv[88]}}    {${inv[89]}}
-        {${inv[90]}}    {${inv[91]}}    {${inv[92]}}    {${inv[93]}}    {${inv[94]}}
-        {${inv[95]}}    {${inv[96]}}    {${inv[97]}}    {${inv[98]}}    {${inv[99]}}]
-    `.replaceAll('{undefined}', '')
+    {${inv[50]}}    {${inv[51]}}    {${inv[52]}}    {${inv[53]}}    {${inv[54]}}
+    {${inv[55]}}    {${inv[56]}}    {${inv[57]}}    {${inv[58]}}    {${inv[59]}}
+    {${inv[60]}}    {${inv[61]}}    {${inv[62]}}    {${inv[63]}}    {${inv[64]}}
+    {${inv[65]}}    {${inv[66]}}    {${inv[67]}}    {${inv[68]}}    {${inv[69]}}
+    {${inv[70]}}    {${inv[71]}}    {${inv[72]}}    {${inv[73]}}    {${inv[74]}}
+    {${inv[75]}}    {${inv[76]}}    {${inv[77]}}    {${inv[78]}}    {${inv[79]}}
+    {${inv[80]}}    {${inv[81]}}    {${inv[82]}}    {${inv[83]}}    {${inv[84]}}
+    {${inv[85]}}    {${inv[86]}}    {${inv[87]}}    {${inv[88]}}    {${inv[89]}}
+    {${inv[90]}}    {${inv[91]}}    {${inv[92]}}    {${inv[93]}}    {${inv[94]}}
+    {${inv[95]}}    {${inv[96]}}    {${inv[97]}}    {${inv[98]}}    {${inv[99]}}]
+
+${stacked}
+    `.replaceAll('{undefined}', '').replaceAll('undefined', '0')
     }
     else {
         return `That page doesn't exist`
@@ -407,6 +459,27 @@ function death() {
     currentEnemyName = null
     coins = coins / 2
     refresh()
+}
+
+function craft(item) {
+    if (item == undefined) {return `That item dosent exist\n${showStats()}`}
+    if (item.itemReq !== undefined) {
+        if (count.get(item.itemReq) >= item.itemAmt) {
+            count.set(item.itemReq, (count.get(item.itemReq) - item.itemAmt))
+            inv.push(item.name)
+            return `Crafted ${item.name} \n${showStats()}`
+        }
+        else {
+            return `You dont have the materials to make that item\n${showStats()}`
+        }
+    }
+    else {
+        return `That item cannot be crafted\n${showStats()}`
+    }
+}
+
+function recipes() {
+    return `${items.slime_sword.name}: ${items.slime_sword.itemAmt} ${items.slime_sword.itemReq}s`
 }
 
 function openShop() {
@@ -454,13 +527,17 @@ ${white}${currentEnemyName}:
     }
     if (id == undefined) {
         return `Goblins (fight goblins)
-Skeletons (fight skeletons)`
+Skeletons (fight skeletons)
+Slimes (fight slimes)`
     }
     if (id =='gobs') {
         id = 'goblins'
     }
     if (id =='skels') {
         id = 'skeletons'
+    }
+    if (id =='slms') {
+        id = 'slimes'
     }
 
 
@@ -478,6 +555,15 @@ Level 1 (fight goblins 1)`
         if (enlevel == undefined) {
             return `Your Level: ${green}{ ${level} }]
 Level 0 (fight skeletons 0)`
+        }
+        if (enlevel !== undefined && enemys[id]['lvl' + enlevel.toString()] == undefined) {
+            return `That level dosen't exist!`
+        }
+    }
+    else if (id == 'slimes') {
+        if (enlevel == undefined) {
+            return `Your Level: ${green}{ ${level} }]
+Level 0 (fight slimes 2)`
         }
         if (enlevel !== undefined && enemys[id]['lvl' + enlevel.toString()] == undefined) {
             return `That level dosen't exist!`
@@ -567,13 +653,21 @@ function attack() {
 
     if (currentEnemy.health <= 0 && currentEnemy !== null) {
         currentEnemy.health = currentEnemy.baseHealth
+        if (currentEnemy.alwaysDrop !== undefined) {
+            var alwaysLength = Math.floor(Math.random() * currentEnemy.alwaysDrop.length)
+            var addedAlways = currentEnemy.alwaysDrop[alwaysLength]
+            stackedInv.push(addedAlways)
+            count = new Map([...new Set(stackedInv)].map(
+                x => [x, stackedInv.filter(y => y === x).length]
+            ));
+        }
         var coinsLength = Math.floor(Math.random() * currentEnemy.coinDrop.length)
         var itemLength = Math.floor(Math.random() * currentEnemy.itemDrop.length)
         var xpLength = Math.floor(Math.random() * currentEnemy.xpDrop.length)
         var addedCoins = currentEnemy.coinDrop[coinsLength]
         var addedWeapons = currentEnemy.itemDrop[itemLength]
         var addedXP = currentEnemy.xpDrop[xpLength]
-        if (addedWeapons !== null) inv.push(addedWeapons)
+        if (addedWeapons !== null) {inv.push(addedWeapons)}
         coins = coins + addedCoins
         xp = xp + (addedXP * xpMulti)
         refresh()
@@ -584,10 +678,10 @@ function attack() {
         return `${white}Drops:
     ${yellow}( + ${addedCoins} ) Coins]
     ${green}( + ${addedXP} x${xpMulti}) XP]
-    ${blue}( + ${addedWeapons} ) to your inventory]
+    ${blue}( + ${addedWeapons}, ${addedAlways} ) to your inventory]
 
 ${showStats()}
-    `.replaceAll(null, 'None')
+    `.replaceAll(null, 'None').replaceAll(', undefined', '')
     } 
     var enemy = currentEnemy
     var enemyName = currentEnemyName
@@ -1296,7 +1390,8 @@ function save() {
         xpToNext: xpToNext,
         equipped: equipped,
         regen: regen,
-        xpMulti: xpMulti
+        xpMulti: xpMulti,
+        stackedInv: stackedInv
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
 }
@@ -1320,6 +1415,7 @@ function load() {
     if (typeof savedGame.equipped !== 'undefined') equipped = savedGame.equipped
     if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
     if (typeof savedGame.xpMulti !== 'undefined') xpMulti = savedGame.xpMulti
+    if (typeof savedGame.stackedInv !== 'undefined') stackedInv = savedGame.stackedInv
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     
     refresh()
@@ -1328,6 +1424,9 @@ function load() {
 window.onload = function() {
     $('#version').text(`v${version}`);
     load();
+    count = new Map([...new Set(stackedInv)].map(
+        x => [x, stackedInv.filter(y => y === x).length]
+    ));
 }
 
 window.setInterval(function(){

@@ -318,7 +318,7 @@ var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.3.0a'
+const version = '1.3.1a'
 
 
 const help = `${white}Help:
@@ -563,7 +563,7 @@ Level 0 (fight skeletons 0)`
     else if (id == 'slimes') {
         if (enlevel == undefined) {
             return `Your Level: ${green}{ ${level} }]
-Level 0 (fight slimes 2)`
+Level 2 (fight slimes 2)`
         }
         if (enlevel !== undefined && enemys[id]['lvl' + enlevel.toString()] == undefined) {
             return `That level dosen't exist!`

@@ -317,9 +317,6 @@ var currentEnemyLVL = null
 var bodyMap = null
 var stats = null
 
-var stackedInv = {
-    'Slime Ball': 0
-}
 var inv = {
     'Fist': {
         'name':'Fist',
@@ -329,7 +326,7 @@ var inv = {
 var equipped = []
 
 var devMode = false 
-const version = '1.4.0a'
+const version = '1.4.1a'
 
 
 const help = `${white}Help:
@@ -420,12 +417,9 @@ ${bodyMap}`
 var invBody = `{${inv['Fist'].amt}x ${inv['Fist'].name}}\n`
 
 function invList(page) {
-    var stacked = `Slime Balls: ${stackedInv["Slime Ball"]}`
     if (page == 1) {
         return`Inventory:
 ${invBody}
-
-${stacked}
     `.replaceAll('{undefined}', '').replaceAll('undefined', '0')
     }
 }
@@ -443,10 +437,11 @@ function death() {
 
 function craft(item) {
     if (item == undefined) {return `That item dosent exist\n${showStats()}`}
-    if (item.itemReq !== undefined) {
-        if (stackedInv[item.itemReq] >= item.itemAmt) {
-            stackedInv[item.itemReq] = stackedInv[item.itemReq] - item.itemAmt
-            if (item.name in inv == false) {
+    if (item.itemReq !== undefined && inv[item.itemReq] !== undefined) {
+        console.log(inv[item.itemReq])
+        if (inv[item.itemReq].amt >= item.itemAmt) {
+            inv[item.itemReq].amt = inv[item.itemReq].amt - item.itemAmt
+            if ((item.name in inv) == false) {
                 inv = {
                     ...inv,
                     [item.name]: {
@@ -454,11 +449,11 @@ function craft(item) {
                         'amt': 0
                     }
                 }
-                inv[item.name].amt = inv[item].name.amt + 1
-                invBody = invBody.concat(`{${inv[item].name.amt}x ${inv[item.name].name}}\n`)
+                inv[item.name].amt = inv[item.name].amt + 1
+                invBody = invBody.concat(`{${inv[item.name].amt}x ${inv[item.name].name}}\n`)
             }
             else {
-                inv[item.name].amt = inv[item].name.amt + 1
+                inv[item.name].amt = inv[item.name].amt + 1
                 invBody = invBody.replaceAll(`{${inv[item.name].amt -1}x ${inv[item.name].name}}\n`, `{${inv[item.name].amt}x ${inv[item.name].name}}\n`)
             }
             return `Crafted ${item.name} \n${showStats()}`
@@ -669,7 +664,21 @@ function attack() {
             var alwaysLength = Math.floor(Math.random() * currentEnemy.alwaysDrop.length)
             var addedAlways = currentEnemy.alwaysDrop[alwaysLength]
             var alwaysAmt = currentEnemy.alwaysAmt
-            stackedInv[addedAlways] = stackedInv[addedAlways] + alwaysAmt
+            if (addedAlways in inv == false) {
+                inv = {
+                    ...inv,
+                    [addedAlways]: {
+                        'name': addedAlways,
+                        'amt': 0
+                    }
+                }
+                inv[addedAlways].amt = inv[addedAlways].amt + alwaysAmt
+                invBody = invBody.concat(`{${inv[addedAlways].amt}x ${inv[addedAlways].name}}\n`)
+            }
+            else {
+                inv[addedAlways].amt = inv[addedAlways].amt + alwaysAmt
+                invBody = invBody.replaceAll(`{${inv[addedAlways].amt - alwaysAmt}x ${inv[addedAlways].name}}\n`, `{${inv[addedAlways].amt}x ${inv[addedAlways].name}}\n`)
+            }
         }
         var coinsLength = Math.floor(Math.random() * currentEnemy.coinDrop.length)
         var itemLength = Math.floor(Math.random() * currentEnemy.itemDrop.length)

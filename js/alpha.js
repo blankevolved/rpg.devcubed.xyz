@@ -254,7 +254,8 @@ const enemys = {
             'itemDrop': [
                 null
             ],
-            'alwaysDrop': ['Slime Ball']
+            'alwaysDrop': ['Slime Ball'],
+            'alwaysAmt': 1
         },
     },
 }
@@ -323,7 +324,7 @@ var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.3.3a'
+const version = '1.3.4a'
 
 
 const help = `${white}Help:
@@ -650,7 +651,7 @@ ${white}${enemyName}:
 }
 
 function attack() {
-    if (currentEnemy === null) return `${white}Cant attack until you initiate a fight with the ]${blue}fight] ${white}command]`
+    if (currentEnemy === null) return `Cant attack until you initiate a fight with the ${blue}fight] command`
     currentEnemy.health = currentEnemy.health - damage
     health = health - currentEnemy.damage
 
@@ -659,7 +660,8 @@ function attack() {
         if (currentEnemy.alwaysDrop !== undefined) {
             var alwaysLength = Math.floor(Math.random() * currentEnemy.alwaysDrop.length)
             var addedAlways = currentEnemy.alwaysDrop[alwaysLength]
-            stackedInv[addedAlways] = stackedInv[addedAlways] + 1
+            var alwaysAmt = currentEnemy.alwaysAmt
+            stackedInv[addedAlways] = stackedInv[addedAlways] + alwaysAmt
         }
         var coinsLength = Math.floor(Math.random() * currentEnemy.coinDrop.length)
         var itemLength = Math.floor(Math.random() * currentEnemy.itemDrop.length)
@@ -675,13 +677,14 @@ function attack() {
         currentEnemyName = null
         hasRun = false
         refresh()
-        return `${white}Drops:
+        return `Drops:
     ${yellow}( + ${addedCoins} ) Coins]
     ${green}( + ${addedXP} x${xpMulti}) XP]
-    ${blue}( + ${addedWeapons}, ${addedAlways} ) to your inventory]
+    ${blue}( + ${addedWeapons} ) to your inventory]
+    ${blue}( + ${alwaysAmt} ${addedAlways} ) to your inventory]
 
 ${showStats()}
-    `.replaceAll(null, 'None').replaceAll(', undefined', '')
+    `.replaceAll(null, 'None').replaceAll(`( + undefined undefined ) to your inventory`, '')
     } 
     var enemy = currentEnemy
     var enemyName = currentEnemyName

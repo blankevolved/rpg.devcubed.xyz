@@ -320,11 +320,16 @@ var stats = null
 var stackedInv = {
     'Slime Ball': 0
 }
-var inv = ['Fist']
+var inv = {
+    'Fist': {
+        'name':'Fist',
+        'amt':1
+    }
+}
 var equipped = []
 
 var devMode = false 
-const version = '1.3.4a'
+const version = '1.4.0a'
 
 
 const help = `${white}Help:
@@ -412,43 +417,16 @@ function showStats() {
 ${bodyMap}`
 }
 
+var invBody = `{${inv['Fist'].amt}x ${inv['Fist'].name}}\n`
 
 function invList(page) {
     var stacked = `Slime Balls: ${stackedInv["Slime Ball"]}`
     if (page == 1) {
-        return`${white}Inventory Page 1:
-    {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
-    {${inv[5]}}    {${inv[6]}}    {${inv[7]}}    {${inv[8]}}    {${inv[9]}}
-    {${inv[10]}}    {${inv[11]}}    {${inv[12]}}    {${inv[13]}}    {${inv[14]}}
-    {${inv[15]}}    {${inv[16]}}    {${inv[17]}}    {${inv[18]}}    {${inv[19]}}
-    {${inv[20]}}    {${inv[21]}}    {${inv[22]}}    {${inv[23]}}    {${inv[24]}}
-    {${inv[25]}}    {${inv[26]}}    {${inv[27]}}    {${inv[28]}}    {${inv[29]}}
-    {${inv[30]}}    {${inv[31]}}    {${inv[32]}}    {${inv[33]}}    {${inv[34]}}
-    {${inv[35]}}    {${inv[36]}}    {${inv[37]}}    {${inv[38]}}    {${inv[39]}}
-    {${inv[40]}}    {${inv[41]}}    {${inv[42]}}    {${inv[43]}}    {${inv[44]}}
-    {${inv[45]}}    {${inv[46]}}    {${inv[47]}}    {${inv[48]}}    {${inv[49]}}]
+        return`Inventory:
+${invBody}
 
 ${stacked}
     `.replaceAll('{undefined}', '').replaceAll('undefined', '0')
-    }
-    if (page == 2) {
-        return`${white}Inventory Page 2:
-    {${inv[50]}}    {${inv[51]}}    {${inv[52]}}    {${inv[53]}}    {${inv[54]}}
-    {${inv[55]}}    {${inv[56]}}    {${inv[57]}}    {${inv[58]}}    {${inv[59]}}
-    {${inv[60]}}    {${inv[61]}}    {${inv[62]}}    {${inv[63]}}    {${inv[64]}}
-    {${inv[65]}}    {${inv[66]}}    {${inv[67]}}    {${inv[68]}}    {${inv[69]}}
-    {${inv[70]}}    {${inv[71]}}    {${inv[72]}}    {${inv[73]}}    {${inv[74]}}
-    {${inv[75]}}    {${inv[76]}}    {${inv[77]}}    {${inv[78]}}    {${inv[79]}}
-    {${inv[80]}}    {${inv[81]}}    {${inv[82]}}    {${inv[83]}}    {${inv[84]}}
-    {${inv[85]}}    {${inv[86]}}    {${inv[87]}}    {${inv[88]}}    {${inv[89]}}
-    {${inv[90]}}    {${inv[91]}}    {${inv[92]}}    {${inv[93]}}    {${inv[94]}}
-    {${inv[95]}}    {${inv[96]}}    {${inv[97]}}    {${inv[98]}}    {${inv[99]}}]
-
-${stacked}
-    `.replaceAll('{undefined}', '').replaceAll('undefined', '0')
-    }
-    else {
-        return `That page doesn't exist`
     }
 }
 
@@ -468,7 +446,21 @@ function craft(item) {
     if (item.itemReq !== undefined) {
         if (stackedInv[item.itemReq] >= item.itemAmt) {
             stackedInv[item.itemReq] = stackedInv[item.itemReq] - item.itemAmt
-            inv.push(item.name)
+            if (item.name in inv == false) {
+                inv = {
+                    ...inv,
+                    [item.name]: {
+                        'name': item.name,
+                        'amt': 0
+                    }
+                }
+                inv[item.name].amt = inv[item].name.amt + 1
+                invBody = invBody.concat(`{${inv[item].name.amt}x ${inv[item.name].name}}\n`)
+            }
+            else {
+                inv[item.name].amt = inv[item].name.amt + 1
+                invBody = invBody.replaceAll(`{${inv[item.name].amt -1}x ${inv[item.name].name}}\n`, `{${inv[item.name].amt}x ${inv[item.name].name}}\n`)
+            }
             return `Crafted ${item.name} \n${showStats()}`
         }
         else {
@@ -492,7 +484,22 @@ function buy(item) {
     if (item in items && item in shopItems) {
         if (shopItems[item].price <= coins) {
             coins = coins - shopItems[item].price
-            inv.push(items[item].name)
+            console.log(items[item].name)
+            if (items[item].name in inv == false) {
+                inv = {
+                    ...inv,
+                    [items[item].name]: {
+                        'name': items[item].name,
+                        'amt': 0
+                    }
+                }
+                inv[items[item].name].amt = inv[items[item].name].amt + 1
+                invBody = invBody.concat(`{${inv[items[item].name].amt}x ${inv[items[item].name].name}}\n`)
+            }
+            else {
+                inv[items[item].name].amt = inv[items[item].name].amt + 1
+                invBody = invBody.replaceAll(`{${inv[items[item].name].amt -1}x ${inv[items[item].name].name}}\n`, `{${inv[items[item].name].amt}x ${inv[items[item].name].name}}\n`)
+            }
             refresh()
             return `Bought ${items[item].name}\n${showStats()}`
         }
@@ -502,12 +509,13 @@ function buy(item) {
 }
 
 function use(item) {
-    if (inv.includes(item.name)) {
+    if (item.name in inv && inv[item.name].amt >= 1) {
         if ((item.slots).includes('consum')) {
             if (item.boostType1 === 'health') {
                 console.log('health')
                 health = health + item.boostNum1
-                removeFirst(inv, item.name)
+                inv[item.name].amt = inv[item.name].amt - 1
+                invBody = invBody.replaceAll(`{${inv[item.name].amt + 1}x ${inv[item.name].name}}\n`, `{${inv[item.name].amt}x ${inv[item.name].name}}\n`)
             }
             refresh()
             return showStats()
@@ -669,7 +677,23 @@ function attack() {
         var addedCoins = currentEnemy.coinDrop[coinsLength]
         var addedWeapons = currentEnemy.itemDrop[itemLength]
         var addedXP = currentEnemy.xpDrop[xpLength]
-        if (addedWeapons !== null) {inv.push(addedWeapons)}
+        if (addedWeapons !== null) {
+            if (addedWeapons in inv == false) {
+                inv = {
+                    ...inv,
+                    [addedWeapons]: {
+                        'name': addedWeapons,
+                        'amt': 0
+                    }
+                }
+                inv[addedWeapons].amt = inv[addedWeapons].amt + 1
+                invBody = invBody.concat(`{${inv[addedWeapons].amt}x ${inv[addedWeapons].name}}\n`)
+            }
+            else {
+                inv[addedWeapons].amt = inv[addedWeapons].amt + 1
+                invBody = invBody.replaceAll(`{${inv[addedWeapons].amt - 1}x ${inv[addedWeapons].name}}\n`, `{${inv[addedWeapons].amt}x ${inv[addedWeapons].name}}\n`)
+            }
+        }
         coins = coins + addedCoins
         xp = xp + (addedXP * xpMulti)
         refresh()
@@ -704,10 +728,10 @@ ${white}${enemyName}:
 
 function sell(item) {
     if (item == undefined) return `That item doesn't exist\n${showStats()}`
-    if (item.sellPrice !== null && inv.includes(item.name)) {
-        removeFirst(inv, item.name)
+    if (item.sellPrice !== null && item.name in inv && inv[item.name].amt >= 1) {
+        inv[item.name].amt = inv[item.name].amt - 1
         coins = coins + item.sellPrice
-        if (inv.includes(item.name) === false) {
+        if (inv[item.name].amt == 0) {
             if (item.slots.includes('mainHand')) {
                 equip(items.fist)
             }
@@ -961,7 +985,7 @@ function equip(item) {
         refresh()
         return `You don't own that item\n${showStats()}`
     }
-    if (inv.includes(item.name)) {
+    if (item.name in inv) {
         function addBoosts(type) {
             if (type == 'mainHand' && equipped.includes(item.name) === false) {
                 if (item.boostType1 === 'health') {
@@ -1333,7 +1357,6 @@ function equip(item) {
         refresh()
         return `Equipped\n${showStats()}`
     }
-    refresh()
     return `You don't own that item\n${showStats()}`
 }
 
@@ -1396,7 +1419,8 @@ function save() {
         equipped: equipped,
         regen: regen,
         xpMulti: xpMulti,
-        stackedInv: stackedInv
+        stackedInv: stackedInv,
+        invBody: invBody
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
 }
@@ -1421,6 +1445,7 @@ function load() {
     if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
     if (typeof savedGame.xpMulti !== 'undefined') xpMulti = savedGame.xpMulti
     if (typeof savedGame.stackedInv !== 'undefined') stackedInv = savedGame.stackedInv
+    if (typeof savedGame.invBody !== 'undefined') invBody = savedGame.invBody
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     
     refresh()

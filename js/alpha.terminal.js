@@ -10,6 +10,12 @@ jQuery(function($) {
         },
         fight: function(id, level) {
             this.clear()
+            if (id == undefined) {
+                id = currentEnemyID
+            }
+            if (level == undefined) {
+                level = currentEnemyLVL
+            }
             this.echo(fight(id, level))
         },
         run: function() {
@@ -34,6 +40,12 @@ jQuery(function($) {
         },
         f: function(id, level) {
             this.clear()
+            if (id == undefined) {
+                id = currentEnemyID
+            }
+            if (level == undefined) {
+                level = currentEnemyLVL
+            }
             this.echo(fight(id, level))
         },
         r: function() {

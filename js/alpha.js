@@ -310,6 +310,9 @@ var currentBoots = null
 var currentWeapon = null
 var currentOffhand = null
 
+var currentEnemyID = null
+var currentEnemyLVL = null
+
 var bodyMap = null
 var stats = null
 
@@ -320,7 +323,7 @@ var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.3.2a'
+const version = '1.3.3a'
 
 
 const help = `${white}Help:
@@ -571,6 +574,8 @@ Level 2 (fight slimes 2)`
         return `That enemy dosent exist`
     }
     if (enlevel <= level) {
+        currentEnemyID = id
+        currentEnemyLVL = level
         var enemy = enemys[id]['lvl' + enlevel.toString()]
         var enemyName = enemys[id].name
     }

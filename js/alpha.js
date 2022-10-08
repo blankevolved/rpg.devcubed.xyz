@@ -34,7 +34,7 @@ const items = {
         'boostNum1': 6,
         'name': 'Slime Sword',
         'slots': ['mainHand'],
-        'sellPrice':null,
+        'sellPrice':1,
         'desc': `A sword made from slimes
     ${green}+6 damage]`
     },
@@ -313,12 +313,14 @@ var currentOffhand = null
 var bodyMap = null
 var stats = null
 
-var stackedInv = []
+var stackedInv = {
+    'Slime Ball': 0
+}
 var inv = ['Fist']
 var equipped = []
 
 var devMode = false 
-const version = '1.3.1a'
+const version = '1.3.2a'
 
 
 const help = `${white}Help:
@@ -364,10 +366,6 @@ function removeFirst(arr, target) {
     return arr;
 }
 
-var count = new Map([...new Set(stackedInv)].map(
-    x => [x, stackedInv.filter(y => y === x).length]
-));
-
 
 refresh()
 
@@ -412,7 +410,7 @@ ${bodyMap}`
 
 
 function invList(page) {
-    var stacked = `Slime Balls: ${count.get('Slime Ball')}`
+    var stacked = `Slime Balls: ${stackedInv["Slime Ball"]}`
     if (page == 1) {
         return`${white}Inventory Page 1:
     {${inv[0]}}    {${inv[1]}}    {${inv[2]}}    {${inv[3]}}    {${inv[4]}}
@@ -464,8 +462,8 @@ function death() {
 function craft(item) {
     if (item == undefined) {return `That item dosent exist\n${showStats()}`}
     if (item.itemReq !== undefined) {
-        if (count.get(item.itemReq) >= item.itemAmt) {
-            count.set(item.itemReq, (count.get(item.itemReq) - item.itemAmt))
+        if (stackedInv[item.itemReq] >= item.itemAmt) {
+            stackedInv[item.itemReq] = stackedInv[item.itemReq] - item.itemAmt
             inv.push(item.name)
             return `Crafted ${item.name} \n${showStats()}`
         }
@@ -656,10 +654,7 @@ function attack() {
         if (currentEnemy.alwaysDrop !== undefined) {
             var alwaysLength = Math.floor(Math.random() * currentEnemy.alwaysDrop.length)
             var addedAlways = currentEnemy.alwaysDrop[alwaysLength]
-            stackedInv.push(addedAlways)
-            count = new Map([...new Set(stackedInv)].map(
-                x => [x, stackedInv.filter(y => y === x).length]
-            ));
+            stackedInv[addedAlways] = stackedInv[addedAlways] + 1
         }
         var coinsLength = Math.floor(Math.random() * currentEnemy.coinDrop.length)
         var itemLength = Math.floor(Math.random() * currentEnemy.itemDrop.length)
@@ -708,7 +703,7 @@ function sell(item) {
             if (item.slots.includes('mainHand')) {
                 equip(items.fist)
             }
-            if (item.slots.includes('offHand')) {
+            else if (item.slots.includes('offHand')) {
                 if (items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
                     maxHealth = maxHealth - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
                     removeFirst(equipped, currentOffhand)
@@ -727,7 +722,7 @@ function sell(item) {
                 }
                 currentOffhand = 'None'
             }
-            if (item.slots.includes('head')) {
+            else if (item.slots.includes('head')) {
                 if (items[currentHead.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
                     maxHealth = maxHealth - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
                     removeFirst(equipped, currentHead)
@@ -747,7 +742,7 @@ function sell(item) {
                 }
                 currentHead = 'None'
             }
-            if (item.slots.includes('chest')) {
+            else if (item.slots.includes('chest')) {
                 if (items[currentChest.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
                     maxHealth = maxHealth - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
                     removeFirst(equipped, currentChest)
@@ -767,7 +762,7 @@ function sell(item) {
                 }
                 currentChest = 'None'
             }
-            if (item.slots.includes('legs')) {
+            else if (item.slots.includes('legs')) {
                 if (items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
                     maxHealth = maxHealth - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
                     removeFirst(equipped, currentLegs)
@@ -787,7 +782,7 @@ function sell(item) {
                 }
                 currentLegs = 'None'
             }
-            if (item.slots.includes('boots')) {
+            else if (item.slots.includes('boots')) {
                 if (items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostType1 == 'health') {
                     maxHealth = maxHealth - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
                     removeFirst(equipped, currentBoots)
@@ -1352,6 +1347,8 @@ ${listItem('dagger')}
 
 ${listItem('sword')}
 
+${listItem('slime_sword')}
+
 ${listItem('small_shield')}
 
 ${listItem('shield')}
@@ -1424,9 +1421,6 @@ function load() {
 window.onload = function() {
     $('#version').text(`v${version}`);
     load();
-    count = new Map([...new Set(stackedInv)].map(
-        x => [x, stackedInv.filter(y => y === x).length]
-    ));
 }
 
 window.setInterval(function(){

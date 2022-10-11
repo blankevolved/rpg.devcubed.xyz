@@ -1,6 +1,7 @@
 body {
     --color: darkgray;
     background-color: var(--color);
+    overflow: hidden;
 }
 .center {
     border: 1px solid black;
@@ -53,10 +54,37 @@ body {
 }
 
 .nav button {
-    background-color: gray;
     border: 5px solid black;
     color: white;
-    width: 100px;
-    height: 50px;
+    width: 125px;
+    height: 55px;
     margin-bottom: 10px;
+    font-family: monospace;
+    font-size: 30px;
+    background-color: rgb(89, 89, 89);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+
+/* Change background color of buttons on hover */
+.nav button:hover {
+    background-color: rgb(62, 62, 62);
+}
+
+/* Create an active/current tablink class */
+.nav button.active {
+    background-color: rgb(47, 47, 47);
+}
+
+.inv {
+    max-height: 90vh;
+    overflow: auto; /*..will introduce scroll bar when needed..*/
+    font-family: monospace;
+}
+.heading {
+    font-size: 50px;
+    color: white;
 }

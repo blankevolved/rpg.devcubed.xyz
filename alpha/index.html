@@ -23,11 +23,11 @@
     </head>
 
     <body>
-        <div class="nav">
-            <button>Stats</button>
-            <button>Inv</button>
-        </div>
         <div class="overlay" id="version">VERSION UNAVAILABLE</div>
+        <div class="nav">
+            <button class="pagelinks" id="start"onclick="changePage(event, 'stats')">Stats</button>
+            <button class="pagelinks" onclick="changePage(event, 'inv')">Inv</button>
+        </div>
         
         <div class="page" id="stats">
             <div class="stats">
@@ -41,6 +41,10 @@
                 <img width="256px" height="256px" id="image" src="/icons/icon.ico">
             </div>
         </div>
-
+        <div class="page" id="inv">
+            <div class="inv">
+                <h2 class="heading">Weapons:</h2>
+            </div>
+        </div>
     </body>
 </html>

@@ -327,7 +327,7 @@ var inv = {
 var equipped = []
 
 var devMode = false 
-const version = '1.4.1a'
+const version = '2.0.0a'
 
 
 const help = `Help:
@@ -862,6 +862,15 @@ function equip(item) {
     }
 }
 
+function update() {
+    function stats(id, num, idvar) {
+        document.querySelector(`.stats #${id} #${num}`).innerHTML = idvar.toFixed(2)
+    }
+    stats('health', 'num', health)
+    stats('health', 'maxnum', maxHealth)
+    stats('damage', 'num', damage)
+}
+
 function save() {
     var gameSave = {
         coins: coins,
@@ -912,7 +921,9 @@ function load() {
 
 window.onload = function() {
     document.querySelector('#version').innerHTML = `v${version}`
+    document.getElementById("start").click();
     load();
+    update()
 }
 
 window.setInterval(function(){
@@ -921,9 +932,31 @@ window.setInterval(function(){
     if (health > maxHealth) {
         health = maxHealth
     }
+    update()
 }, 1000);  // Change Interval here to test. For eg: 5000 for 5 sec
 
 window.setInterval(function(){
     // call your function here
     save()
 }, 10000);  // Change Interval here to test. For eg: 5000 for 5 sec
+
+function changePage(evt, page) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+  
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("page");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("pagelinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(page).style.display = "block";
+    evt.currentTarget.className += " active";
+  } 

@@ -326,7 +326,7 @@ var inv = {
 var equipped = []
 
 var devMode = false 
-const version = '1.4.1a'
+const version = '1.4.2a'
 
 
 const help = `${white}Help:
@@ -1428,7 +1428,6 @@ function save() {
         equipped: equipped,
         regen: regen,
         xpMulti: xpMulti,
-        stackedInv: stackedInv,
         invBody: invBody
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
@@ -1453,7 +1452,6 @@ function load() {
     if (typeof savedGame.equipped !== 'undefined') equipped = savedGame.equipped
     if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
     if (typeof savedGame.xpMulti !== 'undefined') xpMulti = savedGame.xpMulti
-    if (typeof savedGame.stackedInv !== 'undefined') stackedInv = savedGame.stackedInv
     if (typeof savedGame.invBody !== 'undefined') invBody = savedGame.invBody
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     

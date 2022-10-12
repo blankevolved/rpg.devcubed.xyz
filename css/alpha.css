@@ -95,22 +95,24 @@ body {
 .item {
     border: 1px solid black;
     padding: 10px;
-    width: 200px;
+    width: 205px;
     height: 250px;
-    float: left;
+    float: inline-start;
     margin: 10px;
 }
 
-.item #name {
-    text-align: center;
-    color:white;
-    font-size: 25px;
-}
 
 .item * {
     text-align: center;
     color:white;
     padding: 5px;
+    font-size: 20px;
+}
+
+.item #name #text {
+    font-size: 25px;
+}
+.item #name {
     font-size: 25px;
 }
 
@@ -126,4 +128,11 @@ body {
     display: block;
     border: 1px solid black;
     margin: auto;
+}
+
+.weapons {
+    clear: both;
+}
+.shields {
+    clear: both;
 }

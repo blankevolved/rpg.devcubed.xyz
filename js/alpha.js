@@ -46,11 +46,11 @@ const items = {
     },
     'xp_shield': {
         'boostType1': 'xp',
-        'boostNum1': .1,
+        'boostNum1': 0.1,
         'name': 'XP Shield',
         'slots': ['offHand'],
         'sellPrice':2.5,
-        'desc': `x0.1 more xp`
+        'desc': `+0.1 xp multi`
     },
     'shield': {
         'boostType1': 'health',
@@ -353,6 +353,13 @@ const help = `Help:
     
     save: saves your game
 `
+function removeFirst(arr, target) {
+    var idx = arr.indexOf(target);
+    if (idx > -1) {
+      arr.splice(idx, 1);
+    }
+    return arr;
+}
 
 function death() {
     health = maxHealth
@@ -469,17 +476,17 @@ function unequip(item) {
             }
             currentBoots = 'None'
         }
-        refresh()
-        return `Unequipped\n${showStats()}`
+        update()
+        return `Unequipped`
     }
-    return `You don't have that item equipped\n${showStats()}`
+    return `You don't have that item equipped`
 }
 
 function equip(item) {
     if (item == undefined || item == null) {
         console.log(null)
     }
-    if (item.name in inv) {
+    if ((item.name).toLowerCase().replaceAll('_', ' ') in inv) {
         function addBoosts(type) {
             if (type == 'mainHand' && equipped.includes(item.name) === false) {
                 if (item.boostType1 === 'health') {
@@ -834,6 +841,7 @@ function equip(item) {
             addBoosts('mainHand')
         }
         if ((item.slots).includes('offHand')) {
+            console.log('hi')
             addBoosts('offHand')
         }
         if ((item.slots).includes('head')) {
@@ -874,13 +882,19 @@ function update() {
             document.querySelector(`#${id} #amt #text`).innerHTML = 0
         }
     }
+    // stats
     stat('health', 'num', health)
     stat('health', 'maxnum', maxHealth)
     stat('damage', 'num', damage)
+    // items
     item('fist')
     item('dagger')
     item('sword')
     item('slime_sword')
+    item('small_shield')
+    item('shield')
+    item('xp_shield')
+
 }
 
 function save() {

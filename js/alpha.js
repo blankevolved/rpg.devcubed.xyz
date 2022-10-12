@@ -7,7 +7,7 @@ const items = {
         'name': 'Fist',
         'slots': ['mainHand'],
         'sellPrice': null,
-        'desc': `Your first weapon, nothing!`
+        'desc': `+0 damage`
     },
     'dagger': {
         'boostType1': 'damage',
@@ -15,8 +15,7 @@ const items = {
         'name': 'Dagger',
         'slots': ['mainHand'],
         'sellPrice':3,
-        'desc': `A basic dagger
-    +2 damage]`
+        'desc': `+2 damage`
     },
     'sword': {
         'boostType1': 'damage',
@@ -24,8 +23,7 @@ const items = {
         'name': 'Sword',
         'slots': ['mainHand'],
         'sellPrice':7,
-        'desc': `A basic sword
-    +4 damage]`
+        'desc': `+4 damage`
     },
     'slime_sword': {
         'itemReq':'Slime Ball',
@@ -35,8 +33,7 @@ const items = {
         'name': 'Slime Sword',
         'slots': ['mainHand'],
         'sellPrice':1,
-        'desc': `A sword made from slimes
-    $+6 damage]`
+        'desc': `+6 damage`
     },
     // Off Hand //
     'small_shield': {
@@ -45,8 +42,7 @@ const items = {
         'name': 'Small Shield',
         'slots': ['offHand'],
         'sellPrice':2.5,
-        'desc': `A smaller shield
-    +1 health]`
+        'desc': `+1 health`
     },
     'xp_shield': {
         'boostType1': 'xp',
@@ -54,8 +50,7 @@ const items = {
         'name': 'XP Shield',
         'slots': ['offHand'],
         'sellPrice':2.5,
-        'desc': `A shield that gives you more xp
-    x0.1 more xp]`
+        'desc': `x0.1 more xp`
     },
     'shield': {
         'boostType1': 'health',
@@ -63,8 +58,7 @@ const items = {
         'name': 'Shield',
         'slots': ['offHand'],
         'sellPrice':3.5,
-        'desc': `A shield
-    +2.5 health]`
+        'desc': `+2.5 health`
     },
     // Helmets //
     'leather_helmet': {
@@ -73,8 +67,7 @@ const items = {
         'name': 'Leather Helmet',
         'slots': ['head'],
         'sellPrice':2,
-        'desc': `A leather helmet
-    +1.5 Health]`
+        'desc': `+1.5 Health`
     },
     'iron_helmet': {
         'boostType1': 'regen',
@@ -82,8 +75,7 @@ const items = {
         'name': 'Iron Helmet',
         'slots': ['head'],
         'sellPrice':4,
-        'desc': `A iron helmet
-    +0.1 Regen]`
+        'desc': `+0.1 Regen`
     },
     // Chestplates //
     'leather_chestplate': {
@@ -92,8 +84,7 @@ const items = {
         'name': 'Leather Chestplate',
         'slots': ['chest'],
         'sellPrice':6,
-        'desc': `A leather chestplate
-    +3 Health]`
+        'desc': `+3 Health`
     },
     // Leggings //
     'leather_leggings': {
@@ -102,8 +93,7 @@ const items = {
         'name': 'Leather Leggings',
         'slots': ['legs'],
         'sellPrice':5,
-        'desc': `A pair of leather leggings
-    +2 Health]`
+        'desc': `+2 Health`
     },
     // Boots //
     'leather_boots': {
@@ -112,8 +102,7 @@ const items = {
         'name': 'Leather Boots',
         'slots': ['boots'],
         'sellPrice':2,
-        'desc': `A pair of leather boots
-    +1.5 Health]`
+        'desc': `+1.5 Health`
     },
     // Consumables //
     'health_potion': {
@@ -318,7 +307,7 @@ var bodyMap = null
 var stats = null
 
 var inv = {
-    'Fist': {
+    'fist': {
         'name':'Fist',
         'amt':1
     }
@@ -863,12 +852,35 @@ function equip(item) {
 }
 
 function update() {
-    function stats(id, num, idvar) {
+    function stat(id, num, idvar) {
         document.querySelector(`.stats #${id} #${num}`).innerHTML = idvar.toFixed(2)
     }
-    stats('health', 'num', health)
-    stats('health', 'maxnum', maxHealth)
-    stats('damage', 'num', damage)
+    function item(id) {
+        document.querySelector(`#${id} #name #text`).innerHTML = items[id].name
+        document.querySelector(`#${id} #boost #text`).innerHTML = items[id].desc
+        var img = new Image()
+        img.src = `/images/items/${id}.png`
+        if (img.onload) {
+            document.querySelector(`#${id} #image`).src = `/images/items/${id}.png`
+        }
+        else {
+            img.src =`/images/placeholder.png`
+            document.querySelector(`#${id} #image`).src = `/images/placeholder.png`
+        }
+        if (inv[id] !== undefined){
+            document.querySelector(`#${id} #amt #text`).innerHTML = inv[id].amt
+        }
+        else {
+            document.querySelector(`#${id} #amt #text`).innerHTML = 0
+        }
+    }
+    stat('health', 'num', health)
+    stat('health', 'maxnum', maxHealth)
+    stat('damage', 'num', damage)
+    item('fist')
+    item('dagger')
+    item('sword')
+    item('slime_sword')
 }
 
 function save() {
@@ -889,8 +901,7 @@ function save() {
         xpToNext: xpToNext,
         equipped: equipped,
         regen: regen,
-        xpMulti: xpMulti,
-        stackedInv: stackedInv,
+        xpMulti: xpMulti
     }
     localStorage.setItem("gameSave", JSON.stringify(gameSave))
 }
@@ -914,7 +925,6 @@ function load() {
     if (typeof savedGame.equipped !== 'undefined') equipped = savedGame.equipped
     if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
     if (typeof savedGame.xpMulti !== 'undefined') xpMulti = savedGame.xpMulti
-    if (typeof savedGame.stackedInv !== 'undefined') stackedInv = savedGame.stackedInv
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     
 }

@@ -80,11 +80,50 @@ body {
 }
 
 .inv {
+    padding-left: 10px;
+    padding-right: 10px;
     max-height: 90vh;
     overflow: auto; /*..will introduce scroll bar when needed..*/
     font-family: monospace;
 }
 .heading {
-    font-size: 50px;
+    font-size: 40px;
     color: white;
+    padding-bottom: 10px;
+}
+
+.item {
+    border: 1px solid black;
+    padding: 10px;
+    width: 200px;
+    height: 250px;
+    float: left;
+    margin: 10px;
+}
+
+.item #name {
+    text-align: center;
+    color:white;
+    font-size: 25px;
+}
+
+.item * {
+    text-align: center;
+    color:white;
+    padding: 5px;
+    font-size: 25px;
+}
+
+.item img {
+    margin-top: 25px;
+}
+
+.item span {
+    padding: 0px;
+}
+
+.centerhori {
+    display: block;
+    border: 1px solid black;
+    margin: auto;
 }

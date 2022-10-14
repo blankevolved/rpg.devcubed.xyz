@@ -3,6 +3,9 @@ body {
     background-color: var(--color);
     overflow: hidden;
 }
+body * {
+    font-family: monospace;
+}
 .center {
     border: 1px solid black;
     position: absolute;
@@ -20,7 +23,6 @@ body {
 
 .overlay {
     border: 1px solid black;
-    font-family: monospace;
     float: right;
     z-index: 10;
     color: rgb(255, 255, 255);
@@ -30,10 +32,30 @@ body {
 
 .stats {
     border: 1px solid black;
-    width: 50%;
-    font-family: monospace;
+    width: fit-content;
     color: rgb(255, 255, 255);
-    font-size: 30px
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+.drops {
+    border: 1px solid black;
+    width: fit-content;
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    visibility: hidden;
+}
+
+.drops #coins {
+    color: rgb(202, 213, 0);
+}
+
+.drops #xp {
+    color: rgb(32, 212, 128);
+}
+
+.drops #items {
+    color: rgb(32, 143, 212);
 }
 
 .stats #health {
@@ -42,6 +64,18 @@ body {
 
 .stats #damage {
     color: rgb(33, 97, 186);
+}
+
+.stats #coins {
+    color: rgb(202, 213, 0);
+}
+
+.stats #level {
+    color: rgb(31, 170, 105);
+}
+
+.stats #xp {
+    color: rgb(32, 212, 128);
 }
 
 .enemy {
@@ -54,12 +88,10 @@ body {
 }
 
 .nav button {
-    border: 5px solid black;
     color: white;
     width: 125px;
     height: 55px;
     margin-bottom: 10px;
-    font-family: monospace;
     font-size: 30px;
     background-color: rgb(89, 89, 89);
     border: none;
@@ -79,6 +111,33 @@ body {
     background-color: rgb(47, 47, 47);
 }
 
+.fight select, .fight button {
+    color: white;
+    width: fit-content;
+    height: 55px;
+    font-size: 20px;
+    background-color: rgb(89, 89, 89);
+    border: none;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 10px;
+    padding: 10px
+}
+.fight #output {
+    color: white;
+}
+
+/* Change background color of buttons on hover */
+.fight select:hover, .fight button:hover {
+    background-color: rgb(62, 62, 62);
+}
+
+.fight #output {
+    font-size: 20px;
+}
+
 .inv {
     padding-left: 10px;
     padding-right: 10px;
@@ -86,18 +145,52 @@ body {
     overflow: auto; /*..will introduce scroll bar when needed..*/
     font-family: monospace;
 }
+.inv .group {
+    clear: both;
+}
+
 .heading {
     font-size: 40px;
     color: white;
     padding-bottom: 10px;
 }
 
+.fight {
+    float: right;
+    text-align: center;
+}
+
+.enemy * {
+    color:white;
+    font-size: 20px;
+}
+.enemy #name {
+    color:white;
+    font-size: 25px;
+}
+.enemy button {
+    color: white;
+    width: 125px;
+    height: 55px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    background-color: rgb(89, 89, 89);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.enemy button:hover {
+    background-color: rgb(62, 62, 62);
+}
+
 .item {
     border: 1px solid black;
     padding: 10px;
-    width: 205px;
-    height: 250px;
-    float: inline-start;
+    width: 260px;
+    height: 285px;
+    float: left;
     margin: 10px;
 }
 
@@ -106,18 +199,33 @@ body {
     text-align: center;
     color:white;
     padding: 5px;
-    font-size: 20px;
+    font-size: 17.5px;
 }
 
-.item #name #text {
-    font-size: 25px;
+.item #name * {
+    font-size: 22.5px;
 }
 .item #name {
-    font-size: 25px;
+    font-size: 22.5px;
 }
+
+.item #equip  {
+    font-size: 35px;
+    color: limegreen;
+    cursor: pointer;
+    user-select: none;
+}
+
+.item #equip *  {
+    font-size: 35px;
+    cursor: pointer;
+    user-select: none;
+}
+
 
 .item img {
     margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 .item span {
@@ -128,11 +236,4 @@ body {
     display: block;
     border: 1px solid black;
     margin: auto;
-}
-
-.weapons {
-    clear: both;
-}
-.shields {
-    clear: both;
 }

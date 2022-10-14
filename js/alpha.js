@@ -961,7 +961,7 @@ function attack() {
         var addedWeapons = currentEnemy.itemDrop[itemLength]
         var addedXP = currentEnemy.xpDrop[xpLength]
         if (addedWeapons !== null) {
-             var lowAddedWeapons = addedWeapons.toLowerCase().replaceAll(' ', '_')
+            var lowAddedWeapons = addedWeapons.toLowerCase().replaceAll(' ', '_')
             if (lowAddedWeapons in inv == false) {
                 inv = {
                     ...inv,
@@ -1045,6 +1045,10 @@ function update() {
         document.querySelector(`#${id} #boost #text`).innerHTML = items[id].desc
         if (currentWeapon !== null) document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
         if (currentOffhand !== null) document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+        if (currentHead !== null) document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+        if (currentChest !== null) document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+        if (currentLegs !== null) document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+        if (currentBoots !== null) document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
         $(`#${id} #equip`).click(function(){
             equip(items[id]);
         });

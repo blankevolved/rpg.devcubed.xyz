@@ -24,6 +24,32 @@
 
     <body>
         <div class="overlay" id="version">VERSION UNAVAILABLE</div>
+        <div class="equipped overlay">
+            <div class="slot" id="weapon">
+                Weapon:
+                <img width="32" height="32">
+            </div>
+            <div class="slot" id="offhand">
+                Offhand:
+                <img width="32" height="32">
+            </div>
+            <div class="slot" id="helmet">
+                Helmet:
+                <img width="32" height="32">
+            </div>
+            <div class="slot" id="chestplate">
+                Chestplate:
+                <img width="32" height="32">
+            </div>
+            <div class="slot" id="leggings">
+                Leggings:
+                <img width="32" height="32">
+            </div>
+            <div class="slot" id="boots">
+                Boots:
+                <img width="32" height="32">
+            </div>
+        </div>
         <div class="nav">
             <button class="pagelinks" id="start"onclick="changePage(event, 'stats')">Stats</button>
             <button class="pagelinks" onclick="changePage(event, 'inv')">Inv</button>
@@ -76,7 +102,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
                     
                     <div class="item" id="dagger">
@@ -84,7 +110,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                     <div class="item" id="sword">
@@ -92,7 +118,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                     <div class="item" id="slime_sword">
@@ -100,7 +126,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                 </div>
@@ -114,7 +140,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
                     
                     <div class="item" id="shield">
@@ -122,7 +148,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                     <div class="item" id="xp_shield">
@@ -130,7 +156,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                 </div>
@@ -143,7 +169,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                     <div class="item" id="iron_helmet">
@@ -151,7 +177,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                 </div>
@@ -164,7 +190,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                 </div>
@@ -177,7 +203,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                 </div>
@@ -190,7 +216,7 @@
                         <div id="boost">[<span id="text"></span>]</div>
                         <div id="amt">[x<span id="text"></span>]</div>
                         <img width="64px" height="64px" class="centerhori" id="image"/>
-                        <div id="equip">[<span id="text">Equip</span>]</div>
+                        <button class="centerhori" id="equip">[<span id="text">Equip</span>]</button>
                     </div>
 
                 </div>

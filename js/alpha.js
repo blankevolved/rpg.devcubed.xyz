@@ -392,7 +392,7 @@ function unequip(item) {
                 regen = regen - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
                 removeFirst(equipped, currentOffhand)
             }
-            document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+            
             currentOffhand = null
         }
         if (item.slots.includes('head')) {
@@ -413,7 +413,7 @@ function unequip(item) {
                 regen = regen - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
                 removeFirst(equipped, currentHead)
             }
-            document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+            
             currentHead = null
         }
         if (item.slots.includes('chest')) {
@@ -434,7 +434,7 @@ function unequip(item) {
                 regen = regen - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
                 removeFirst(equipped, currentChest)
             }
-            document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+            
             currentChest = null
         }
         if (item.slots.includes('legs')) {
@@ -455,7 +455,6 @@ function unequip(item) {
                 regen = regen - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
                 removeFirst(equipped, currentLegs)
             }
-            document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
             currentLegs = null
         }
         if (item.slots.includes('boots')) {
@@ -476,7 +475,7 @@ function unequip(item) {
                 regen = regen - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
                 removeFirst(equipped, currentBoots)
             }
-            document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+            
             currentBoots = null
         }
         update()
@@ -498,14 +497,14 @@ function equip(item) {
                         maxHealth = maxHealth - items[currentWeapon.toLowerCase().replaceAll(' ', '_')].boostNum1
                         maxHealth = maxHealth + item.boostNum1
                         removeFirst(equipped, currentWeapon)
-                        document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         maxHealth = maxHealth + item.boostNum1
                     }
                     equipped.push(item.name)
                     currentWeapon = item.name
-                    document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'damage') {
                     console.log('damage')
@@ -513,14 +512,14 @@ function equip(item) {
                         damage = damage - items[currentWeapon.toLowerCase().replaceAll(' ', '_')].boostNum1
                         damage = damage + item.boostNum1
                         removeFirst(equipped, currentWeapon)
-                        document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         damage = damage + item.boostNum1
                     }
                     equipped.push(item.name)
                     currentWeapon = item.name
-                    document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'xp') {
                     console.log('xp')
@@ -528,7 +527,7 @@ function equip(item) {
                         xpMulti = xpMulti - items[currentWeapon.toLowerCase().replaceAll(' ', '_')].boostNum1
                         xpMulti = xpMulti + item.boostNum1
                         removeFirst(equipped, currentWeapon)
-                        document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         xpMulti = xpMulti + item.boostNum1
@@ -536,7 +535,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentWeapon = item.name
-                    document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'regen') {
                     console.log('regen')
@@ -544,7 +543,7 @@ function equip(item) {
                         regen = regen - items[currentWeapon.toLowerCase().replaceAll(' ', '_')].boostNum1
                         regen = regen + item.boostNum1
                         removeFirst(equipped, currentWeapon)
-                        document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         regen = regen + item.boostNum1
@@ -552,7 +551,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentWeapon = item.name
-                    document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
             }
             if (type == 'offHand' && equipped.includes(item.name) === false) {
@@ -562,7 +561,7 @@ function equip(item) {
                         maxHealth = maxHealth - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
                         maxHealth = maxHealth + item.boostNum1
                         removeFirst(equipped, currentOffhand)
-                        document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         maxHealth = maxHealth + item.boostNum1
@@ -570,7 +569,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentOffhand = item.name
-                    document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'damage') {
                     console.log('damage')
@@ -578,7 +577,7 @@ function equip(item) {
                         damage = damage - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
                         damage = damage + item.boostNum1
                         removeFirst(equipped, currentOffhand)
-                        document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         damage = damage + item.boostNum1
@@ -586,7 +585,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentOffhand = item.name
-                    document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'xp') {
                     console.log('xp')
@@ -594,7 +593,7 @@ function equip(item) {
                         xpMulti = xpMulti - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
                         xpMulti = xpMulti + item.boostNum1
                         removeFirst(equipped, currentOffhand)
-                        document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         xpMulti = xpMulti + item.boostNum1
@@ -602,7 +601,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentOffhand = item.name
-                    document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'regen') {
                     console.log('regen')
@@ -610,7 +609,7 @@ function equip(item) {
                         regen = regen - items[currentOffhand.toLowerCase().replaceAll(' ', '_')].boostNum1
                         regen = regen + item.boostNum1
                         removeFirst(equipped, currentOffhand)
-                        document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         regen = regen + item.boostNum1
@@ -618,7 +617,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentOffhand = item.name
-                    document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
             }
             if (type == 'head' && equipped.includes(item.name) === false) {
@@ -628,7 +627,7 @@ function equip(item) {
                         maxHealth = maxHealth - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
                         maxHealth = maxHealth + item.boostNum1
                         removeFirst(equipped, currentHead)
-                        document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         maxHealth = maxHealth + item.boostNum1
@@ -636,7 +635,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentHead = item.name
-                    document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'damage') {
                     console.log('damage')
@@ -644,7 +643,7 @@ function equip(item) {
                         damage = damage - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
                         damage = damage + item.boostNum1
                         removeFirst(equipped, currentHead)
-                        document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         damage = damage + item.boostNum1
@@ -652,7 +651,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentHead = item.name
-                    document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'xp') {
                     console.log('xp')
@@ -660,7 +659,7 @@ function equip(item) {
                         xpMulti = xpMulti - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
                         xpMulti = xpMulti + item.boostNum1
                         removeFirst(equipped, currentHead)
-                        document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         xpMulti = xpMulti + item.boostNum1
@@ -668,7 +667,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentHead = item.name
-                    document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'regen') {
                     console.log('regen')
@@ -676,7 +675,7 @@ function equip(item) {
                         regen = regen - items[currentHead.toLowerCase().replaceAll(' ', '_')].boostNum1
                         regen = regen + item.boostNum1
                         removeFirst(equipped, currentHead)
-                        document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         regen = regen + item.boostNum1
@@ -684,7 +683,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentHead = item.name
-                    document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
             }
             if (type == 'chest' && equipped.includes(item.name) === false) {
@@ -694,7 +693,7 @@ function equip(item) {
                         maxHealth = maxHealth - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
                         maxHealth = maxHealth + item.boostNum1
                         removeFirst(equipped, currentChest)
-                        document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         maxHealth = maxHealth + item.boostNum1
@@ -702,7 +701,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentChest = item.name
-                    document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'damage') {
                     console.log('damage')
@@ -710,7 +709,7 @@ function equip(item) {
                         damage = damage - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
                         damage = damage + item.boostNum1
                         removeFirst(equipped, currentChest)
-                        document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         damage = damage + item.boostNum1
@@ -718,7 +717,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentChest = item.name
-                    document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'xp') {
                     console.log('xp')
@@ -726,7 +725,7 @@ function equip(item) {
                         xpMulti = xpMulti - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
                         xpMulti = xpMulti + item.boostNum1
                         removeFirst(equipped, currentChest)
-                        document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         xpMulti = xpMulti + item.boostNum1
@@ -734,7 +733,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentChest = item.name
-                    document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'regen') {
                     console.log('regen')
@@ -742,7 +741,7 @@ function equip(item) {
                         regen = regen - items[currentChest.toLowerCase().replaceAll(' ', '_')].boostNum1
                         regen = regen + item.boostNum1
                         removeFirst(equipped, currentChest)
-                        document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         regen = regen + item.boostNum1
@@ -750,7 +749,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentChest = item.name
-                    document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
             }
             if (type == 'legs' && equipped.includes(item.name) === false) {
@@ -760,7 +759,7 @@ function equip(item) {
                         maxHealth = maxHealth - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
                         maxHealth = maxHealth + item.boostNum1
                         removeFirst(equipped, currentLegs)
-                        document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         maxHealth = maxHealth + item.boostNum1
@@ -768,7 +767,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentLegs = item.name
-                    document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'damage') {
                     console.log('damage')
@@ -776,7 +775,7 @@ function equip(item) {
                         damage = damage - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
                         damage = damage + item.boostNum1
                         removeFirst(equipped, currentLegs)
-                        document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                        
                     }
                     else {
                         damage = damage + item.boostNum1
@@ -784,7 +783,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentLegs = item.name
-                    document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
                 if (item.boostType1 === 'xp') {
                     console.log('xp')
@@ -792,7 +791,7 @@ function equip(item) {
                         xpMulti = xpMulti - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
                         xpMulti = xpMulti + item.boostNum1
                         removeFirst(equipped, currentLegs)
-                        document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+                    
                     }
                     else {
                         xpMulti = xpMulti + item.boostNum1
@@ -800,7 +799,6 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentLegs = item.name
-                    document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
                 }
                 if (item.boostType1 === 'regen') {
                     console.log('regen')
@@ -808,7 +806,7 @@ function equip(item) {
                         regen = regen - items[currentLegs.toLowerCase().replaceAll(' ', '_')].boostNum1
                         regen = regen + item.boostNum1
                         removeFirst(equipped, currentLegs)
-                        document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
+           
                     }
                     else {
                         regen = regen + item.boostNum1
@@ -816,7 +814,7 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentLegs = item.name
-                    document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
+                    
                 }
             }
             if (type == 'boots' && equipped.includes(item.name) === false) {
@@ -826,7 +824,6 @@ function equip(item) {
                         maxHealth = maxHealth - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
                         maxHealth = maxHealth + item.boostNum1
                         removeFirst(equipped, currentBoots)
-                        document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
                     }
                     else {
                         maxHealth = maxHealth + item.boostNum1
@@ -834,7 +831,6 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentBoots = item.name
-                    document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
                 }
                 if (item.boostType1 === 'damage') {
                     console.log('damage')
@@ -842,7 +838,6 @@ function equip(item) {
                         damage = damage - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
                         damage = damage + item.boostNum1
                         removeFirst(equipped, currentBoots)
-                        document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
                     }
                     else {
                         damage = damage + item.boostNum1
@@ -850,7 +845,6 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentBoots = item.name
-                    document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
                 }
                 if (item.boostType1 === 'xp') {
                     console.log('xp')
@@ -858,7 +852,6 @@ function equip(item) {
                         xpMulti = xpMulti - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
                         xpMulti = xpMulti + item.boostNum1
                         removeFirst(equipped, currentBoots)
-                        document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
                     }
                     else {
                         xpMulti = xpMulti + item.boostNum1
@@ -866,7 +859,6 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentBoots = item.name
-                    document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
                 }
                 if (item.boostType1 === 'regen') {
                     console.log('regen')
@@ -874,7 +866,6 @@ function equip(item) {
                         regen = regen - items[currentBoots.toLowerCase().replaceAll(' ', '_')].boostNum1
                         regen = regen + item.boostNum1
                         removeFirst(equipped, currentBoots)
-                        document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equip'
                     }
                     else {
                         regen = regen + item.boostNum1
@@ -882,7 +873,6 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentBoots = item.name
-                    document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
                 }
             }
         }
@@ -1043,12 +1033,6 @@ function update() {
     function item(id) {
         document.querySelector(`#${id} #name #text`).innerHTML = items[id].name
         document.querySelector(`#${id} #boost #text`).innerHTML = items[id].desc
-        if (currentWeapon !== null) document.querySelector(`#${currentWeapon.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
-        if (currentOffhand !== null) document.querySelector(`#${currentOffhand.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
-        if (currentHead !== null) document.querySelector(`#${currentHead.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
-        if (currentChest !== null) document.querySelector(`#${currentChest.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
-        if (currentLegs !== null) document.querySelector(`#${currentLegs.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
-        if (currentBoots !== null) document.querySelector(`#${currentBoots.toLowerCase().replaceAll(' ', '_')} #equip #text`).innerHTML = 'Equipped'
         $(`#${id} #equip`).click(function(){
             equip(items[id]);
         });

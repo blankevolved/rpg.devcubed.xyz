@@ -5,12 +5,11 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color">
 
         <title id="title">RPG - Alpha</title>
         <link rel="icon" href="/icons/icon.ico">
 
-        <!-- JQUERY-->
-        <script src="/js/jquery/jquery-3.6.1.min.js"></script>
 
         <!-- JS -->
         <script defer src="/js/alpha.js"></script>
@@ -24,42 +23,43 @@
 
     <body>
         <div class="overlay" id="version">VERSION UNAVAILABLE</div>
-        <div class="equipped overlay">
-            <div class="slot" id="weapon">
-                Weapon:
-                <img width="32" height="32">
-            </div>
-            <div class="slot" id="offhand">
-                Offhand:
-                <img width="32" height="32">
-            </div>
-            <div class="slot" id="helmet">
-                Helmet:
-                <img width="32" height="32">
-            </div>
-            <div class="slot" id="chestplate">
-                Chestplate:
-                <img width="32" height="32">
-            </div>
-            <div class="slot" id="leggings">
-                Leggings:
-                <img width="32" height="32">
-            </div>
-            <div class="slot" id="boots">
-                Boots:
-                <img width="32" height="32">
-            </div>
-        </div>
         <div class="nav">
             <button class="pagelinks" id="start"onclick="changePage(event, 'stats')">Stats</button>
             <button class="pagelinks" onclick="changePage(event, 'inv')">Inv</button>
+        </div>
+
+        <div class="equipped">
+            <div class="slot" id="weapon">
+                Weapon:
+                <img id="img">
+            </div>
+            <div class="slot" id="offhand">
+                Offhand:
+                <img id="img">
+            </div>
+            <div class="slot" id="helmet">
+                Helmet:
+                <img id="img">
+            </div>
+            <div class="slot" id="chestplate">
+                Chestplate:
+                <img id="img">
+            </div>
+            <div class="slot" id="leggings">
+                Leggings:
+                <img id="img">
+            </div>
+            <div class="slot" id="boots">
+                Boots:
+                <img id="img">
+            </div>
         </div>
         
 
         <div class="page" id="stats">
             <div class="fight">
                 <select id="enemy" onchange="updateFight()">
-                    <option value="goblin">Goblin</option>
+                    <option value="goblin" selected>Goblin</option>
                     <option value="skeleton">Skeleton</option>
                 </select>
                 <select id="level">

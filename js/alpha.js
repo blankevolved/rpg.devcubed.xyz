@@ -1033,16 +1033,17 @@ function update() {
     function item(id) {
         document.querySelector(`#${id} #name #text`).innerHTML = items[id].name
         document.querySelector(`#${id} #boost #text`).innerHTML = items[id].desc
-        $(`#${id} #equip`).click(function(){
-            equip(items[id]);
+        document.querySelector(`#${id} #equip`).addEventListener('click', function() {
+            equip(items[id])
         });
-        var img = new Image()
-        img.src = `/images/items/${id}.png`
-        if (img.onload) {
+        var invImg = new Image()
+        invImg.src = `/images/items/${id}.png`
+        // inv image
+        if (invImg.onload) {
             document.querySelector(`#${id} #image`).src = `/images/items/${id}.png`
         }
         else {
-            img.src =`/images/placeholder.png`
+            invImg.src =`/images/placeholder.png`
             document.querySelector(`#${id} #image`).src = `/images/placeholder.png`
         }
         if (inv[id] !== undefined){
@@ -1050,6 +1051,71 @@ function update() {
         }
         else {
             document.querySelector(`#${id} #amt #text`).innerHTML = 0
+        }
+    }
+    function img() {
+        var currentWeaponImg = new Image();
+        var currentOffhandImg = new Image();
+        var currentHeadImg = new Image();
+        var currentChestImg = new Image();
+        var currentLegsImg = new Image();
+        var currentBootsImg = new Image();
+
+        if (currentWeapon !== null) currentWeaponImg.src =`/images/items/${currentWeapon.toLowerCase()}.png`
+        if (currentOffhand !== null) currentOffhandImg.src =`/images/items/${currentOffhand.toLowerCase()}.png`
+        if (currentHead !== null) currentHeadImg.src =`/images/items/${currentHead.toLowerCase()}.png`
+        if (currentChest !== null) currentChestImg.src =`/images/items/${currentChest.toLowerCase()}.png`
+        if (currentLegs !== null) currentLegsImg.src =`/images/items/${currentLegs.toLowerCase()}.png`
+        if (currentBoots !== null) currentBootsImg.src =`/images/items/${currentBoots.toLowerCase()}.png`
+
+        // main hand
+        if (currentWeaponImg.onload) {
+            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentWeapon.toLowerCase()}.png`
+        }
+        else {
+            currentWeaponImg.src =`/images/placeholder.png`
+            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
+        }
+        currentWeaponImg.src =`/images/placeholder.png`
+        // off hand
+        if (currentOffhandImg.onload && currentOffhand !== null) {
+            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentOffhand.toLowerCase()}.png`
+        }
+        else {
+            currentOffhandImg.src =`/images/placeholder.png`
+            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
+        }
+        // head
+        if (currentHeadImg.onload && currentHead !== null) {
+            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentHead.toLowerCase()}.png`
+        }
+        else {
+            currentHeadImg.src =`/images/placeholder.png`
+            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
+        }
+        // chest
+        if (currentChestImg.onload && currentChest !== null) {
+            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentChest.toLowerCase()}.png`
+        }
+        else {
+            currentChestImg.src =`/images/placeholder.png`
+            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
+        }
+        // legs
+        if (currentLegsImg.onload && currentLegs !== null) {
+            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentLegs.toLowerCase()}.png`
+        }
+        else {
+            currentLegsImg.src =`/images/placeholder.png`
+            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
+        }
+        // boots
+        if (currentBootsImg.onload && currentBoots !== null) {
+            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentBoots.toLowerCase()}.png`
+        }
+        else {
+            currentBootsImg.src =`/images/placeholder.png`
+            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
         }
     }
 
@@ -1084,6 +1150,7 @@ function update() {
 
     item('leather_boots')
 
+    img()
 }
 
 function save() {
@@ -1136,8 +1203,8 @@ window.onload = function() {
     document.querySelector('#version').innerHTML = `v${version}`
     document.getElementById("start").click();
     load();
-    update();
     updateFight();
+    update();
 }
 
 window.setInterval(function(){

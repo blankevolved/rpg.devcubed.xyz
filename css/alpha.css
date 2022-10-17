@@ -46,6 +46,7 @@ body * {
     font-size: 25px;
     border: 1px solid black;
     margin-right: 1.5px;
+    width: 15vw;
 }
 .slot * {
     display: inline-block;
@@ -128,15 +129,10 @@ button.active {
 .inv {
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 10px;
     max-height: 90vh;
     max-width: 80vw;
     overflow: auto;
-    font-family: monospace;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-.inv::-webkit-scrollbar {
-    display: none;
 }
   
 .inv .group {
@@ -190,6 +186,9 @@ button:hover, select:hover {
     float: left;
     margin: 10px;
 }
+.item button {
+    width: 50px
+}
 
 
 .item * {
@@ -197,23 +196,32 @@ button:hover, select:hover {
     color:var(--textcolor);
     padding: 5px;
     font-size: 20px;
-    white-space: nowrap;
+}
+.item button {
+    margin: 0
 }
 
-.item #name, .item #name * {
+.item #name, .item #name * :not() {
     font-size: 20px;
 }
 
-.item #equip * {
-    font-size: 30px;
+.item #equip *, .item #use *, .item #sell * {
+    font-size: 25px;
     cursor: pointer;
     user-select: none;
     color: var('--textcolor')
 }
 
-.item #equip  {
+.item #equip, .item #use  {
     color: rgb(36, 143, 36);
-    font-size: 30px;
+    font-size: 25px;
+    cursor: pointer;
+    user-select: none;
+    width: fit-content;
+}
+.item #sell  {
+    color: rgb(178, 188, 42);
+    font-size: 25px;
     cursor: pointer;
     user-select: none;
     width: fit-content;
@@ -223,6 +231,7 @@ button:hover, select:hover {
 .item img {
     margin-top: 10px;
     margin-bottom: 10px;
+    border: 1px solid black;
 }
 
 .item span {
@@ -231,6 +240,5 @@ button:hover, select:hover {
 
 .centerhori {
     display: block;
-    border: 1px solid black;
     margin: auto;
 }

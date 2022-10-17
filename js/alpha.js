@@ -36,7 +36,7 @@ const items = {
         desc: `+6 damage`
     },
     // Off Hand //
-    small_shield: {
+    broken_shield: {
         boostType1: 'health',
         boostNum1: 1,
         name: 'Small Shield',
@@ -70,12 +70,12 @@ const items = {
         desc: `+1.5 Health`
     },
     iron_helmet: {
-        boostType1: 'regen',
-        boostNum1: .1,
+        boostType1: 'health',
+        boostNum1: 3,
         name: 'Iron Helmet',
         slots: ['head'],
         sellPrice:4,
-        desc: `+0.1 Regen`
+        desc: `+3 Health`
     },
     // Chestplates //
     leather_chestplate: {
@@ -86,6 +86,14 @@ const items = {
         sellPrice:6,
         desc: `+3 Health`
     },
+    iron_chestplate: {
+        boostType1: 'health',
+        boostNum1: 6,
+        name: 'Iron Chesplate',
+        slots: ['chest'],
+        sellPrice:12,
+        desc: `+6 Health`
+    },
     // Leggings //
     leather_leggings: {
         boostType1: 'health',
@@ -94,6 +102,14 @@ const items = {
         slots: ['legs'],
         sellPrice:5,
         desc: `+2 Health`
+    },
+    iron_leggings: {
+        boostType1: 'health',
+        boostNum1: 4,
+        name: 'Iron Leggings',
+        slots: ['legs'],
+        sellPrice:10,
+        desc: `+4 Health`
     },
     // Boots //
     leather_boots: {
@@ -104,6 +120,14 @@ const items = {
         sellPrice:2,
         desc: `+1.5 Health`
     },
+    iron_boots: {
+        boostType1: 'health',
+        boostNum1: 3,
+        name: 'Iron Boots',
+        slots: ['boots'],
+        sellPrice:4,
+        desc: `+3 Health`
+    },
     // Consumables //
     health_potion: {
         boostType1: 'health',
@@ -111,16 +135,14 @@ const items = {
         name: 'Health Potion',
         slots: ['consum'],
         sellPrice:5,
-        desc: `A useful health potion`
+        desc: `+5 Health on use`
     },
     // Crafting //
     slime_ball: {
-        boostType1: 'health',
-        boostNum1: 0,
         name: 'Slime Ball',
         slots: ['craft'],
         sellPrice:1,
-        desc: `A slime ball used for crafting`
+        desc: `A ball of slime`
     },
 }
 
@@ -210,10 +232,10 @@ const enemys = {
                 'Dagger',
                 'Dagger',
                 'Dagger',
-                null,
-                'Iron Helmet',
-                'Iron Helmet',
-                null,
+                'Iron Helmet', 
+                'Iron Chestplate', 
+                'Iron Leggings', 
+                'Iron Boots',
                 null,
                 'XP Shield',
                 null,
@@ -280,7 +302,7 @@ var maxHealth = 10
 var damage = 1
 var xp = 0
 var xpMulti = 1
-var regen = 0.05
+var regen = 0.1
 var xpToNext = levels[level].req
 var currentEnemy = null
 var currentEnemyName = null
@@ -504,7 +526,6 @@ function equip(item) {
                     }
                     equipped.push(item.name)
                     currentWeapon = item.name
-                    
                 }
                 if (item.boostType1 === 'damage') {
                     console.log('damage')
@@ -553,6 +574,7 @@ function equip(item) {
                     currentWeapon = item.name
                     
                 }
+                document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentWeapon.toLowerCase().replaceAll(' ', '_')}.png`
             }
             if (type == 'offHand' && equipped.includes(item.name) === false) {
                 if (item.boostType1 === 'health') {
@@ -619,6 +641,7 @@ function equip(item) {
                     currentOffhand = item.name
                     
                 }
+                document.querySelector(`.equipped #offhand #img`).src = `/images/items/${currentOffhand.toLowerCase().replaceAll(' ', '_')}.png`
             }
             if (type == 'head' && equipped.includes(item.name) === false) {
                 if (item.boostType1 === 'health') {
@@ -685,6 +708,7 @@ function equip(item) {
                     currentHead = item.name
                     
                 }
+                document.querySelector(`.equipped #offhand #img`).src = `/images/items/${currentHead.toLowerCase().replaceAll(' ', '_')}.png`
             }
             if (type == 'chest' && equipped.includes(item.name) === false) {
                 if (item.boostType1 === 'health') {
@@ -751,6 +775,7 @@ function equip(item) {
                     currentChest = item.name
                     
                 }
+                document.querySelector(`.equipped #offhand #img`).src = `/images/items/${currentChest.toLowerCase().replaceAll(' ', '_')}.png`
             }
             if (type == 'legs' && equipped.includes(item.name) === false) {
                 if (item.boostType1 === 'health') {
@@ -816,6 +841,7 @@ function equip(item) {
                     currentLegs = item.name
                     
                 }
+                document.querySelector(`.equipped #offhand #img`).src = `/images/items/${currentLegs.toLowerCase().replaceAll(' ', '_')}.png`
             }
             if (type == 'boots' && equipped.includes(item.name) === false) {
                 if (item.boostType1 === 'health') {
@@ -874,6 +900,7 @@ function equip(item) {
                     equipped.push(item.name)
                     currentBoots = item.name
                 }
+                document.querySelector(`.equipped #offhand #img`).src = `/images/items/${currentBoots.toLowerCase().replaceAll(' ', '_')}.png`
             }
         }
         if ((item.slots).includes('mainHand')) {
@@ -972,8 +999,12 @@ function attack() {
         document.querySelector(`.drops #xp #num`).innerHTML = addedXP
         document.querySelector(`.drops #xp #multi`).innerHTML = xpMulti
         document.querySelector(`.stats #xp #num`).innerHTML = xp.toFixed(2)
-        if (addedWeapons !== null) document.querySelector(`.drops #items #name`).innerHTML = addedWeapons
-        else document.querySelector(`.drops #items #name`).innerHTML = 'None'
+        if (addedWeapons !== null) {
+            document.querySelector(`.drops #items #name`).innerHTML = addedWeapons
+        }
+        else {
+            document.querySelector(`.drops #items #name`).innerHTML = 'None'
+        }
         setTimeout(function(){
             document.querySelector(`.drops`).style.visibility = 'hidden';
         },5000);
@@ -1006,14 +1037,67 @@ function levelUp() {
 
 function updateFight() {
     if (document.querySelector(`.fight #enemy`).value === 'goblin') {
-        document.querySelector(`.fight #level`).innerHTML = 
+        document.querySelector(`.fight #enemylevel`).innerHTML = 
         `<option value="0">Level 0</option>
         <option value="1">Level 1</option>`
     }
     if (document.querySelector(`.fight #enemy`).value === 'skeleton') {
-        document.querySelector(`.fight #level`).innerHTML = 
+        document.querySelector(`.fight #enemylevel`).innerHTML = 
         `<option value="0">Level 0</option>`
     }
+    if (document.querySelector(`.fight #enemy`).value === 'slime') {
+        document.querySelector(`.fight #enemylevel`).innerHTML = 
+        `<option value="2">Level 2</option>`
+    }
+}
+
+function updateStart() {
+    if (currentWeapon !== null) {
+        document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentWeapon.toLowerCase().replaceAll(' ', '_')}.png`
+    }
+    if (currentOffhand !== null) {
+        document.querySelector(`.equipped #offhand #img`).src = `/images/items/${currentOffhand.toLowerCase().replaceAll(' ', '_')}.png`
+    }
+    if (currentHead !== null) {
+        document.querySelector(`.equipped #helmet #img`).src = `/images/items/${currentHead.toLowerCase().replaceAll(' ', '_')}.png`
+    }
+    if (currentChest !== null) {
+        document.querySelector(`.equipped #chestplate #img`).src = `/images/items/${currentChest.toLowerCase().replaceAll(' ', '_')}.png`
+    }
+    if (currentLegs !== null) {
+        document.querySelector(`.equipped #leggings #img`).src = `/images/items/${currentLegs.toLowerCase().replaceAll(' ', '_')}.png`
+    }
+    if (currentBoots !== null) {
+        document.querySelector(`.equipped #boots #img`).src = `/images/items/${currentBoots.toLowerCase().replaceAll(' ', '_')}.png`
+    }
+    function item(id) {
+        document.querySelector(`#${id} #image`).src = `/images/items/${id}.png`
+    }
+    item('fist')
+    item('dagger')
+    item('sword')
+    item('slime_sword')
+
+    item('broken_shield')
+    item('shield')
+    item('xp_shield')
+
+    item('leather_helmet')
+    item('iron_helmet')
+
+    item('leather_chestplate')
+    item('iron_chestplate')
+
+    item('leather_leggings')
+    item('iron_leggings')
+
+    item('leather_boots')
+    item('iron_boots')
+
+    item('health_potion')
+
+    item('slime_ball')
+
 }
 
 function update() {
@@ -1028,94 +1112,19 @@ function update() {
         health = maxHealth
     }
     function stat(id, num, idvar) {
-        document.querySelector(`.stats #${id} #${num}`).innerHTML = idvar.toFixed(2)
+        document.querySelector(`.stats #${id} #${num}`).innerHTML = numFormatter(idvar)
     }
     function item(id) {
         document.querySelector(`#${id} #name #text`).innerHTML = items[id].name
         document.querySelector(`#${id} #boost #text`).innerHTML = items[id].desc
-        document.querySelector(`#${id} #equip`).addEventListener('click', function() {
+        if (document.querySelector(`#${id} #equip`) !== null) document.querySelector(`#${id} #equip`).addEventListener('click', function() {
             equip(items[id])
         });
-        var invImg = new Image()
-        invImg.src = `/images/items/${id}.png`
-        // inv image
-        if (invImg.onload) {
-            document.querySelector(`#${id} #image`).src = `/images/items/${id}.png`
-        }
-        else {
-            invImg.src =`/images/placeholder.png`
-            document.querySelector(`#${id} #image`).src = `/images/placeholder.png`
-        }
         if (inv[id] !== undefined){
             document.querySelector(`#${id} #amt #text`).innerHTML = inv[id].amt
         }
         else {
             document.querySelector(`#${id} #amt #text`).innerHTML = 0
-        }
-    }
-    function img() {
-        var currentWeaponImg = new Image();
-        var currentOffhandImg = new Image();
-        var currentHeadImg = new Image();
-        var currentChestImg = new Image();
-        var currentLegsImg = new Image();
-        var currentBootsImg = new Image();
-
-        if (currentWeapon !== null) currentWeaponImg.src =`/images/items/${currentWeapon.toLowerCase()}.png`
-        if (currentOffhand !== null) currentOffhandImg.src =`/images/items/${currentOffhand.toLowerCase()}.png`
-        if (currentHead !== null) currentHeadImg.src =`/images/items/${currentHead.toLowerCase()}.png`
-        if (currentChest !== null) currentChestImg.src =`/images/items/${currentChest.toLowerCase()}.png`
-        if (currentLegs !== null) currentLegsImg.src =`/images/items/${currentLegs.toLowerCase()}.png`
-        if (currentBoots !== null) currentBootsImg.src =`/images/items/${currentBoots.toLowerCase()}.png`
-
-        // main hand
-        if (currentWeaponImg.onload) {
-            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentWeapon.toLowerCase()}.png`
-        }
-        else {
-            currentWeaponImg.src =`/images/placeholder.png`
-            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
-        }
-        currentWeaponImg.src =`/images/placeholder.png`
-        // off hand
-        if (currentOffhandImg.onload && currentOffhand !== null) {
-            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentOffhand.toLowerCase()}.png`
-        }
-        else {
-            currentOffhandImg.src =`/images/placeholder.png`
-            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
-        }
-        // head
-        if (currentHeadImg.onload && currentHead !== null) {
-            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentHead.toLowerCase()}.png`
-        }
-        else {
-            currentHeadImg.src =`/images/placeholder.png`
-            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
-        }
-        // chest
-        if (currentChestImg.onload && currentChest !== null) {
-            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentChest.toLowerCase()}.png`
-        }
-        else {
-            currentChestImg.src =`/images/placeholder.png`
-            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
-        }
-        // legs
-        if (currentLegsImg.onload && currentLegs !== null) {
-            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentLegs.toLowerCase()}.png`
-        }
-        else {
-            currentLegsImg.src =`/images/placeholder.png`
-            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
-        }
-        // boots
-        if (currentBootsImg.onload && currentBoots !== null) {
-            document.querySelector(`.equipped #weapon #img`).src = `/images/items/${currentBoots.toLowerCase()}.png`
-        }
-        else {
-            currentBootsImg.src =`/images/placeholder.png`
-            document.querySelector(`.equipped #weapon #img`).src = `/images/placeholder.png`
         }
     }
 
@@ -1137,7 +1146,7 @@ function update() {
     item('sword')
     item('slime_sword')
 
-    item('small_shield')
+    item('broken_shield')
     item('shield')
     item('xp_shield')
 
@@ -1145,12 +1154,19 @@ function update() {
     item('iron_helmet')
 
     item('leather_chestplate')
+    item('iron_chestplate')
 
     item('leather_leggings')
+    item('iron_leggings')
 
     item('leather_boots')
+    item('iron_boots')
 
-    img()
+    item('health_potion')
+
+    item('slime_ball')
+
+
 }
 
 function save() {
@@ -1178,23 +1194,25 @@ function save() {
 
 function load() {
     var savedGame = JSON.parse(localStorage.getItem("gameSave"))
-    if (typeof savedGame.coins !== 'undefined') coins = savedGame.coins
-    if (typeof savedGame.health !== 'undefined') health = savedGame.health
-    if (typeof savedGame.maxHealth !== 'undefined') maxHealth = savedGame.maxHealth
-    if (typeof savedGame.damage !== 'undefined') damage = savedGame.damage
-    if (typeof savedGame.currentHead !== 'undefined') currentHead = savedGame.currentHead
-    if (typeof savedGame.currentChest !== 'undefined') currentChest = savedGame.currentChest
-    if (typeof savedGame.currentLegs !== 'undefined') currentLegs = savedGame.currentLegs
-    if (typeof savedGame.currentBoots !== 'undefined') currentBoots = savedGame.currentBoots
-    if (typeof savedGame.currentWeapon !== 'undefined') currentWeapon = savedGame.currentWeapon
-    if (typeof savedGame.currentOffhand !== 'undefined') currentOffhand = savedGame.currentOffhand
-    if (typeof savedGame.inv !== 'undefined') inv = savedGame.inv
-    if (typeof savedGame.level !== 'undefined') level = savedGame.level
-    if (typeof savedGame.xp !== 'undefined') xp = savedGame.xp
-    if (typeof savedGame.xpToNext !== 'undefined') xpToNext = savedGame.xpToNext
-    if (typeof savedGame.equipped !== 'undefined') equipped = savedGame.equipped
-    if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
-    if (typeof savedGame.xpMulti !== 'undefined') xpMulti = savedGame.xpMulti
+    if (savedGame !== null) {
+        if (typeof savedGame.coins !== 'undefined') coins = savedGame.coins
+        if (typeof savedGame.health !== 'undefined') health = savedGame.health
+        if (typeof savedGame.maxHealth !== 'undefined') maxHealth = savedGame.maxHealth
+        if (typeof savedGame.damage !== 'undefined') damage = savedGame.damage
+        if (typeof savedGame.currentHead !== 'undefined') currentHead = savedGame.currentHead
+        if (typeof savedGame.currentChest !== 'undefined') currentChest = savedGame.currentChest
+        if (typeof savedGame.currentLegs !== 'undefined') currentLegs = savedGame.currentLegs
+        if (typeof savedGame.currentBoots !== 'undefined') currentBoots = savedGame.currentBoots
+        if (typeof savedGame.currentWeapon !== 'undefined') currentWeapon = savedGame.currentWeapon
+        if (typeof savedGame.currentOffhand !== 'undefined') currentOffhand = savedGame.currentOffhand
+        if (typeof savedGame.inv !== 'undefined') inv = savedGame.inv
+        if (typeof savedGame.level !== 'undefined') level = savedGame.level
+        if (typeof savedGame.xp !== 'undefined') xp = savedGame.xp
+        if (typeof savedGame.xpToNext !== 'undefined') xpToNext = savedGame.xpToNext
+        if (typeof savedGame.equipped !== 'undefined') equipped = savedGame.equipped
+        if (typeof savedGame.regen !== 'undefined') regen = savedGame.regen
+        if (typeof savedGame.xpMulti !== 'undefined') xpMulti = savedGame.xpMulti
+    }
     // if (typeof savedGame.a !== 'undefined') a = savedGame.a
     
 }
@@ -1203,6 +1221,7 @@ window.onload = function() {
     document.querySelector('#version').innerHTML = `v${version}`
     document.getElementById("start").click();
     load();
+    updateStart();
     updateFight();
     update();
 }
